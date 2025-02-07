@@ -92,20 +92,34 @@ namespace Project1_INFO5101
                 var records = csv.GetRecords<dynamic>();
                 foreach (var record in records)
                 {
-                    CityInfo cityInfo = new CityInfo(
-                        (int)record.Element("id")!,
-                        (string)record.Element("name")!,
-                        (string)record.Element("state_abbrev")!,
-                        (string)record.Element("state")!,
-                        (string)record.Element("capital")!,
-                        (double)record.Element("lat")!,
-                        (double)record.Element("lng")!,
-                        (int)record.Element("population")!,
-                        (int)record.Element("density")!,
-                        (string)record.Element("timezone")!,
-                        (string)record.Element("zips")!
+                    int id = Convert.ToInt32(record.id);  // Assuming 'id' is always an integer
+                    string city = Convert.ToString(record.city);
+                    string stateAbbrev = Convert.ToString(record.state_abbrev);
+                    string state = Convert.ToString(record.state);
+                    string capital = Convert.ToString(record.capital);
 
-                        );
+                    double lat = 0;
+                    double lng = 0;
+                    int population = 0;
+                    int density = 0;
+
+                    double.TryParse(Convert.ToString(record.lat), out lat);
+                    double.TryParse(Convert.ToString(record.lng), out lng);
+                    int.TryParse(Convert.ToString(record.population), out population);
+                    int.TryParse(Convert.ToString(record.density), out density);
+
+                    string timezone = Convert.ToString(record.timezone);
+                    string zips = Convert.ToString(record.zips);
+
+                    CityInfo cityInfo = new CityInfo(id, city, stateAbbrev, state, capital,  lat, lng,
+                        population,
+                        density,
+                        timezone,
+                        zips
+                    );
+
+
+
                     AddToDictionary(cityInfo);
 
                 }
