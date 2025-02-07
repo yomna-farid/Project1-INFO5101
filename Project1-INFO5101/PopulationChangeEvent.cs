@@ -8,5 +8,6 @@ namespace Project1_INFO5101
 {
     internal class PopulationChangeEvent
     {
+        //
     }
 }
