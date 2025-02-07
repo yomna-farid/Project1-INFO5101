@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using System.Globalization;
-using System.IO;
 using CsvHelper;
-using System.Globalization;
-using System.Formats.Asn1;
 
 namespace Project1_INFO5101
 {
@@ -20,28 +14,28 @@ namespace Project1_INFO5101
             // Delegate for parsing methods
             public delegate void ParseDelegate(string fileName);
 
-            public void ParseFile(string fileName, string fileType)
+            public void ParseFile(string fileName, int fileType)
             {
                 ParseDelegate parser;
 
-                switch (fileType.ToLower())
+                switch (fileType)
                 {
 
-                case "xml":
+                case 1:
                     parser = ParseXML;
                     break;
 
-                case "json":
-                        parser = ParseJSON;
-                        break;
+                case 2:
+                    parser = ParseJSON;
+                    break;
                
-                case "csv":
+                case 3:
                     parser = ParseCSV;
                     break;
 
 
                 default:
-                        throw new ArgumentException("Unsupported file format.");
+                    throw new ArgumentException("Unsupported file format.");
                 }
 
                 parser(fileName);
@@ -58,17 +52,17 @@ namespace Project1_INFO5101
             foreach (var city in cities)
             {
                 CityInfo cityInfo = new CityInfo(
-                    (int)city.Element("Id")!,
-                    (string)city.Element("Name")!,
-                    (string)city.Element("StateAbbrev")!,
-                    (string)city.Element("State")!,
-                    (string)city.Element("Capital")!,
-                    (double)city.Element("Latitude")!,
-                    (double)city.Element("Longitude")!,
-                    (int)city.Element("Population")!,
-                    (int)city.Element("Density")!,
-                    DateTime.Parse((string)city.Element("TimeZone")!),
-                    (string)city.Element("Zips")!
+                    (int)city.Element("id")!,
+                    (string)city.Element("name")!,
+                    (string)city.Element("state_abbrev")!,
+                    (string)city.Element("state")!,
+                    (string)city.Element("capital")!,
+                    (double)city.Element("lat")!,
+                    (double)city.Element("lng")!,
+                    (int)city.Element("population")!,
+                    (int)city.Element("density")!,
+                    (string)city.Element("timezone")!,
+                    (string)city.Element("zips")!
                 );
                 AddToDictionary(cityInfo);
             }
@@ -84,9 +78,10 @@ namespace Project1_INFO5101
             string jsonData = File.ReadAllText(fileName);
         }
 
-        // Parse CSV file
+        
         private void ParseCSV(string fileName)
         {
+            string data = "";
             using (var reader = new StreamReader(fileName))
 
                 if (!File.Exists(fileName)) throw new FileNotFoundException("File not found.");
@@ -95,7 +90,25 @@ namespace Project1_INFO5101
             using (var csv = new CsvReader(reader, new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture)))
             {
                 var records = csv.GetRecords<dynamic>();
-                
+                foreach (var record in records)
+                {
+                    CityInfo cityInfo = new CityInfo(
+                        (int)record.Element("id")!,
+                        (string)record.Element("name")!,
+                        (string)record.Element("state_abbrev")!,
+                        (string)record.Element("state")!,
+                        (string)record.Element("capital")!,
+                        (double)record.Element("lat")!,
+                        (double)record.Element("lng")!,
+                        (int)record.Element("population")!,
+                        (int)record.Element("density")!,
+                        (string)record.Element("timezone")!,
+                        (string)record.Element("zips")!
+
+                        );
+                    AddToDictionary(cityInfo);
+
+                }
             }
         }
 

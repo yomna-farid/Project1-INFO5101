@@ -4,7 +4,9 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            DataModeler dataModeler = new DataModeler();
+
+            dataModeler.ParseFile("usacities.csv", 3);
         }
     }
 }
