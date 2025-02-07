@@ -7,10 +7,14 @@ namespace Project1_INFO5101
     internal class DataModeler
     {
 
-
         // Dictionary to store city data with city name as key
         public Dictionary<string, List<CityInfo>> CityDictionary { get; private set; } = new Dictionary<string, List<CityInfo>>();
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
         // Delegate for parsing methods
         public delegate void ParseDelegate(string fileName);
 
@@ -20,7 +24,6 @@ namespace Project1_INFO5101
 
             switch (fileType)
             {
-
                 case 1:
                     parser = ParseXML;
                     break;
@@ -33,14 +36,17 @@ namespace Project1_INFO5101
                     parser = ParseCSV;
                     break;
 
-
                 default:
                     throw new ArgumentException("Unsupported file format.");
             }
 
             parser(fileName);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <exception cref="FileNotFoundException"></exception>
         // Parse XML file
         private void ParseXML(string fileName)
         {
@@ -69,7 +75,11 @@ namespace Project1_INFO5101
         }
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <exception cref="FileNotFoundException"></exception>
         // Parse JSON file
         private void ParseJSON(string fileName)
         {
@@ -78,10 +88,13 @@ namespace Project1_INFO5101
             string jsonData = File.ReadAllText(fileName);
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <exception cref="FileNotFoundException"></exception>
         private void ParseCSV(string fileName)
         {
-            string data = "";
             using (var reader = new StreamReader(fileName))
 
                 if (!File.Exists(fileName)) throw new FileNotFoundException("File not found.");
@@ -111,12 +124,7 @@ namespace Project1_INFO5101
                     string timezone = Convert.ToString(record.timezone);
                     string zips = Convert.ToString(record.zips);
 
-                    CityInfo cityInfo = new CityInfo(id, city, stateAbbrev, state, capital, lat, lng,
-                        population,
-                        density,
-                        timezone,
-                        zips
-                    );
+                    CityInfo cityInfo = new CityInfo(id, city, stateAbbrev, state, capital, lat, lng,  population,  density, timezone, zips );
 
 
 
