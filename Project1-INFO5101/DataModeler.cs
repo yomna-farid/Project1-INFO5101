@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using System.Globalization;
 using CsvHelper;
 
@@ -10,19 +7,19 @@ namespace Project1_INFO5101
     internal class DataModeler
     {
 
-      
-            // Dictionary to store city data with city name as key
-            public Dictionary<string, List<CityInfo>> CityDictionary { get; private set; } = new Dictionary<string, List<CityInfo>>();
 
-            // Delegate for parsing methods
-            public delegate void ParseDelegate(string fileName);
+        // Dictionary to store city data with city name as key
+        public Dictionary<string, List<CityInfo>> CityDictionary { get; private set; } = new Dictionary<string, List<CityInfo>>();
 
-            public void ParseFile(string fileName, int fileType)
+        // Delegate for parsing methods
+        public delegate void ParseDelegate(string fileName);
+
+        public void ParseFile(string fileName, int fileType)
+        {
+            ParseDelegate parser;
+
+            switch (fileType)
             {
-                ParseDelegate parser;
-
-                switch (fileType)
-                {
 
                 case 1:
                     parser = ParseXML;
@@ -31,7 +28,7 @@ namespace Project1_INFO5101
                 case 2:
                     parser = ParseJSON;
                     break;
-               
+
                 case 3:
                     parser = ParseCSV;
                     break;
@@ -39,10 +36,10 @@ namespace Project1_INFO5101
 
                 default:
                     throw new ArgumentException("Unsupported file format.");
-                }
-
-                parser(fileName);
             }
+
+            parser(fileName);
+        }
 
         // Parse XML file
         private void ParseXML(string fileName)
@@ -55,17 +52,17 @@ namespace Project1_INFO5101
             foreach (var city in cities)
             {
                 CityInfo cityInfo = new CityInfo(
-                    (int)city.Element("Id")!,
-                    (string)city.Element("Name")!,
-                    (string)city.Element("StateAbbrev")!,
-                    (string)city.Element("State")!,
-                    (string)city.Element("Capital")!,
-                    (double)city.Element("Latitude")!,
-                    (double)city.Element("Longitude")!,
-                    (int)city.Element("Population")!,
-                    (int)city.Element("Density")!,
-                    DateTime.Parse((string)city.Element("TimeZone")!),
-                    (string)city.Element("Zips")!
+                    (int)city.Element("id")!,
+                    (string)city.Element("name")!,
+                    (string)city.Element("state_abbrev")!,
+                    (string)city.Element("state")!,
+                    (string)city.Element("capital")!,
+                    (double)city.Element("lat")!,
+                    (double)city.Element("lng")!,
+                    (int)city.Element("population")!,
+                    (int)city.Element("density")!,
+                    (string)city.Element("timezone")!,
+                    (string)city.Element("zips")!
                 );
                 AddToDictionary(cityInfo);
             }
@@ -81,7 +78,7 @@ namespace Project1_INFO5101
             string jsonData = File.ReadAllText(fileName);
         }
 
-        
+
         private void ParseCSV(string fileName)
         {
             string data = "";
@@ -114,7 +111,7 @@ namespace Project1_INFO5101
                     string timezone = Convert.ToString(record.timezone);
                     string zips = Convert.ToString(record.zips);
 
-                    CityInfo cityInfo = new CityInfo(id, city, stateAbbrev, state, capital,  lat, lng,
+                    CityInfo cityInfo = new CityInfo(id, city, stateAbbrev, state, capital, lat, lng,
                         population,
                         density,
                         timezone,
@@ -128,8 +125,6 @@ namespace Project1_INFO5101
                 }
             }
         }
-
-      
 
 
         // Add city data to dictionary handling duplicates
@@ -155,9 +150,10 @@ namespace Project1_INFO5101
 
 
 
-    
 
 
 
-            
-       
+
+
+
+
