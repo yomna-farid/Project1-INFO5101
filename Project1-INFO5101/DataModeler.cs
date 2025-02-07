@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
-
 using System.Globalization;
+using System.IO;
+using CsvHelper;
+using System.Globalization;
+using System.Formats.Asn1;
 
 namespace Project1_INFO5101
 {
@@ -83,6 +86,19 @@ namespace Project1_INFO5101
         }
 
         // Parse CSV file
+        private void ParseCSV(string fileName)
+        {
+            using (var reader = new StreamReader(fileName))
+
+                if (!File.Exists(fileName)) throw new FileNotFoundException("File not found.");
+
+            using (var reader = new StreamReader(fileName))
+            using (var csv = new CsvReader(reader, new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture)))
+            {
+                var records = csv.GetRecords<dynamic>();
+                
+            }
+        }
 
       
 
