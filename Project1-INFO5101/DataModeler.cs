@@ -1,4 +1,7 @@
-﻿using System.Xml.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Xml.Linq;
 using System.Globalization;
 using CsvHelper;
 
@@ -52,17 +55,17 @@ namespace Project1_INFO5101
             foreach (var city in cities)
             {
                 CityInfo cityInfo = new CityInfo(
-                    (int)city.Element("id")!,
-                    (string)city.Element("name")!,
-                    (string)city.Element("state_abbrev")!,
-                    (string)city.Element("state")!,
-                    (string)city.Element("capital")!,
-                    (double)city.Element("lat")!,
-                    (double)city.Element("lng")!,
-                    (int)city.Element("population")!,
-                    (int)city.Element("density")!,
-                    (string)city.Element("timezone")!,
-                    (string)city.Element("zips")!
+                    (int)city.Element("Id")!,
+                    (string)city.Element("Name")!,
+                    (string)city.Element("StateAbbrev")!,
+                    (string)city.Element("State")!,
+                    (string)city.Element("Capital")!,
+                    (double)city.Element("Latitude")!,
+                    (double)city.Element("Longitude")!,
+                    (int)city.Element("Population")!,
+                    (int)city.Element("Density")!,
+                    DateTime.Parse((string)city.Element("TimeZone")!),
+                    (string)city.Element("Zips")!
                 );
                 AddToDictionary(cityInfo);
             }
@@ -125,6 +128,8 @@ namespace Project1_INFO5101
                 }
             }
         }
+
+      
 
 
         // Add city data to dictionary handling duplicates
