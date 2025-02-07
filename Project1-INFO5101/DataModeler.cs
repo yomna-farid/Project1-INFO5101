@@ -55,6 +55,7 @@ namespace Project1_INFO5101
             foreach (var city in cities)
             {
                 CityInfo cityInfo = new CityInfo(
+                    
                     (int)city.Element("Id")!,
                     (string)city.Element("Name")!,
                     (string)city.Element("StateAbbrev")!,
@@ -82,6 +83,8 @@ namespace Project1_INFO5101
         }
 
         // Parse CSV file
+
+      
 
 
         // Add city data to dictionary handling duplicates
