@@ -25,7 +25,8 @@ namespace Project1_INFO5101
             switch (fileType)
             {
                 case 1:
-                    parser = ParseXML;
+                    parser = ParseCSV;
+
                     break;
 
                 case 2:
@@ -33,7 +34,7 @@ namespace Project1_INFO5101
                     break;
 
                 case 3:
-                    parser = ParseCSV;
+                    parser = ParseXML;
                     break;
 
                 default:
@@ -53,11 +54,18 @@ namespace Project1_INFO5101
             if (!File.Exists(fileName)) throw new FileNotFoundException("File not found.");
 
             XDocument doc = XDocument.Load(fileName);
-            var cities = doc.Descendants("City");
+            var cities = doc.Descendants("city");
 
             foreach (var city in cities)
             {
-                CityInfo cityInfo = new CityInfo(
+               
+                List<string> zips = new();
+                string z = (string)city.Element("zips")!;
+
+               
+                zips = z.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
+                
+                 CityInfo cityInfo = new CityInfo(
                     (int)city.Element("id")!,
                     (string)city.Element("name")!,
                     (string)city.Element("state_abbrev")!,
@@ -66,9 +74,9 @@ namespace Project1_INFO5101
                     (double)city.Element("lat")!,
                     (double)city.Element("lng")!,
                     (int)city.Element("population")!,
-                    (int)city.Element("density")!,
+                    (double)city.Element("density")!,
                     (string)city.Element("timezone")!,
-                    (string)city.Element("zips")!
+                    zips!
                 );
                 AddToDictionary(cityInfo);
             }
@@ -88,6 +96,12 @@ namespace Project1_INFO5101
             string jsonData = File.ReadAllText(fileName);
         }
 
+        /*
+         * 
+         * 
+                1840019941	Portland	OR	Oregon		45.5371	-122.65	2095808	1868.8	America/Los_Angeles	
+
+         */
         /// <summary>
         /// 
         /// </summary>
@@ -105,8 +119,11 @@ namespace Project1_INFO5101
                 var records = csv.GetRecords<dynamic>();
                 foreach (var record in records)
                 {
-                    int id = Convert.ToInt32(record.id);  // Assuming 'id' is always an integer
+
+
+                    int id = Convert.ToInt32(record.id); 
                     string city = Convert.ToString(record.city);
+                  
                     string stateAbbrev = Convert.ToString(record.state_abbrev);
                     string state = Convert.ToString(record.state);
                     string capital = Convert.ToString(record.capital);
@@ -114,21 +131,29 @@ namespace Project1_INFO5101
                     double lat = 0;
                     double lng = 0;
                     int population = 0;
-                    int density = 0;
+                    double density = 0;
 
                     double.TryParse(Convert.ToString(record.lat), out lat);
                     double.TryParse(Convert.ToString(record.lng), out lng);
                     int.TryParse(Convert.ToString(record.population), out population);
-                    int.TryParse(Convert.ToString(record.density), out density);
+                    double.TryParse(Convert.ToString(record.density), out density);
 
                     string timezone = Convert.ToString(record.timezone);
-                    string zips = Convert.ToString(record.zips);
+                    List<string> zips = new();
+                    string z =   Convert.ToString(record.zips);
+                    zips = z.Split(' ').ToList();
 
-                    CityInfo cityInfo = new CityInfo(id, city, stateAbbrev, state, capital, lat, lng,  population,  density, timezone, zips );
+
+                    CityInfo cityInfo = new CityInfo(id, city, stateAbbrev, state, capital, lat, lng, population, density, timezone, zips);
 
 
 
                     AddToDictionary(cityInfo);
+
+                        
+
+                    
+                  
 
                 }
             }
