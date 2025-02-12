@@ -58,26 +58,26 @@ namespace Project1_INFO5101
 
             foreach (var city in cities)
             {
-               
+
                 List<string> zips = new();
                 string z = (string)city.Element("zips")!;
 
-               
+
                 zips = z.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
-                
-                 CityInfo cityInfo = new CityInfo(
-                    (int)city.Element("id")!,
-                    (string)city.Element("name")!,
-                    (string)city.Element("state_abbrev")!,
-                    (string)city.Element("state")!,
-                    (string)city.Element("capital")!,
-                    (double)city.Element("lat")!,
-                    (double)city.Element("lng")!,
-                    (int)city.Element("population")!,
-                    (double)city.Element("density")!,
-                    (string)city.Element("timezone")!,
-                    zips!
-                );
+
+                CityInfo cityInfo = new CityInfo(
+                   (int)city.Element("id")!,
+                   (string)city.Element("name")!,
+                   (string)city.Element("state_abbrev")!,
+                   (string)city.Element("state")!,
+                   (string)city.Element("capital")!,
+                   (double)city.Element("lat")!,
+                   (double)city.Element("lng")!,
+                   (int)city.Element("population")!,
+                   (double)city.Element("density")!,
+                   (string)city.Element("timezone")!,
+                   zips!
+               );
                 AddToDictionary(cityInfo);
             }
         }
@@ -93,8 +93,26 @@ namespace Project1_INFO5101
         {
             if (!File.Exists(fileName)) throw new FileNotFoundException("File not found.");
 
-            string jsonData = File.ReadAllText(fileName);
+         
         }
+
+        try
+        {
+           string jsonData = File.ReadAllText(fileName);
+
+        List<CityInfo>? cities = JsonConvert.Deserialize<List<CityInfo>>(jsonData);
+            foreach (CityInfo city in cities)
+            {
+                AddToDictionary(city);
+            }
+        }
+         catch (JsonException ex)
+       {
+             Console.WriteLine(ex.Message);
+         throw;
+       }
+     }
+
 
         /*
          * 

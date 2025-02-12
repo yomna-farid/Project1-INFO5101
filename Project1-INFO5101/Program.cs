@@ -12,8 +12,6 @@ namespace Project1_INFO5101
             //Prompt user to select data source
             Console.Write("Enter you selection: ");
             
-
-            
         }
 
         //ALL INCOMPLETE METHODS
@@ -93,7 +91,19 @@ namespace Project1_INFO5101
 
         //Method for Change Data Source
 
+        public static void ChangeDataSource()
+        {
+            Console.WriteLine("\n Changing Data Source...\n");
+            DataSourceSelection();
+        }
+
+
         //Method for Exit the Program
+        public static void ExitProgram()
+        {
+            Console.WriteLine("\nThank you for using the U.S. Cities Information System.");
+            Environment.Exit(0);
+        }
 
 
     }
