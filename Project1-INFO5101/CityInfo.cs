@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Project1_INFO5101
 {
-    internal class CityInfo
+    public class CityInfo
     {
         public int Id { get; set; }
         public string Name { get; set; }

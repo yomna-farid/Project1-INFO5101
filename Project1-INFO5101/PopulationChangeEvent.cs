@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Project1_INFO5101
 {
-    public class PopulationChangeEvent
-    {
+ 
         public class PopulationChangeEvent
         {
             // Define the delegate for population changes
@@ -35,4 +34,4 @@ namespace Project1_INFO5101
 
     }
 
-}
+
