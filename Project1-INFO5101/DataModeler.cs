@@ -93,25 +93,11 @@ namespace Project1_INFO5101
         {
             if (!File.Exists(fileName)) throw new FileNotFoundException("File not found.");
 
-         
+            string jsonData = File.ReadAllText(fileName);
         }
 
-        try
-        {
-           string jsonData = File.ReadAllText(fileName);
+   
 
-        List<CityInfo>? cities = JsonConvert.Deserialize<List<CityInfo>>(jsonData);
-            foreach (CityInfo city in cities)
-            {
-                AddToDictionary(city);
-            }
-        }
-         catch (JsonException ex)
-       {
-             Console.WriteLine(ex.Message);
-         throw;
-       }
-     }
 
 
         /*
