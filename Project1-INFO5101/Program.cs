@@ -40,17 +40,6 @@ namespace Project1_INFO5101
             }
         }
 
-        private static void ConsoleMessage() 
-        {
-            Console.WriteLine("Press any key to continue...");
-            Environment.Exit(0);
-        }
-
-        private static void Clear()
-        {
-            Console.Clear();
-        }
-
         private static void DataSourceSelection()
         {
             while (true)

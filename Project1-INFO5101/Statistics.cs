@@ -1,14 +1,17 @@
 ﻿/*
- * Name: Joy Owoeyeb
+ * Name: Joy Owoeye, 
  */
-
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
 using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Project1_INFO5101
 {
@@ -44,7 +47,7 @@ namespace Project1_INFO5101
                     Console.WriteLine("{0,-20} {1,-15}", "Longitude:", cityInfo.Longitude);
                     Console.WriteLine("{0,-20} {1,-15}", "Latitude:", cityInfo.Latitude);
                     Console.WriteLine("{0,-20} {1,-15}", "Time Zone:", cityInfo.TimeZone);
-                    Console.WriteLine("{0,-20} {1,-15}", "Capital:", cityInfo.Capital.Equals("") ? "No" : cityInfo.Capital);
+                    Console.WriteLine("{0,-20} {1,-15}", "Capital:", cityInfo.Capital == null || cityInfo.Capital.Equals("") ? "No" : cityInfo.Capital);
 
                     count++;
                 }
@@ -62,8 +65,8 @@ namespace Project1_INFO5101
         public void ComparePopulationDensity(string cityNameA, string cityNameB)
         {
 
-            double densityA=0, densityB = 0;
-            string cityA = "", cityB = "", stateAbbrevA = "",  stateAbbrevB = "";
+            double densityA = 0, densityB = 0;
+            string cityA = "", cityB = "", stateAbbrevA = "", stateAbbrevB = "";
 
             if (citiesDictionary.ContainsKey(cityNameA))
             {
@@ -92,25 +95,23 @@ namespace Project1_INFO5101
 
                 Console.WriteLine($"{cityB}, {stateAbbrevB}  has a population density of {densityB.ToString("N0")} people per sq. km");
             }
-           
-           string nameAndState = densityA > densityB ? cityNameA + ", " + stateAbbrevA : cityNameB + ", " + stateAbbrevB;
+
+            string nameAndState = densityA > densityB ? cityNameA + ", " + stateAbbrevA : cityNameB + ", " + stateAbbrevB;
             Console.WriteLine($"\n{nameAndState} has the higher population density");
-            
+
         }
 
-        // Haversine Formula to calculate distance between two latitude/longitude points https://en.wikipedia.org/wiki/Haversine_formula
-        static double HaversineDistance(double lat1, double lon1, double lat2, double lon2)
+        // Uses  Haversine Formula to calculate distance between two latitude/longitude points https://en.wikipedia.org/wiki/Haversine_formula
+        private double CalulateDistance(double lat1, double lon1, double lat2, double lon2)
         {
-            const double R = 6371; // Radius of Earth in km
-            double dLat = DegreesToRadians(lat2 - lat1);
-            double dLon = DegreesToRadians(lon2 - lon1);
-            double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-                       Math.Cos(DegreesToRadians(lat1)) * Math.Cos(DegreesToRadians(lat2)) *
-                       Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+            const double Radius = 6371; // Radius of Earth in km
+            double distanceLat = (lat2 - lat1) * Math.PI / 180;
+            double distanceLon = (lon2 - lon1) * Math.PI / 180;
+            double a = Math.Sin(distanceLat / 2) * Math.Sin(distanceLat / 2) + Math.Cos((lat1) * Math.PI / 180 * Math.PI / 180) * Math.Cos((lat2) * Math.PI / 180) * Math.Sin(distanceLon / 2) * Math.Sin(distanceLon / 2);
             double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-            return R * c;
+            return Radius * c;
         }
-        static double DegreesToRadians(double degrees) => degrees * Math.PI / 180;
+
 
 
         //Distance between cities isnt being accurately calculated
@@ -120,8 +121,8 @@ namespace Project1_INFO5101
             double distanceALat = 0;
             double distanceBLng = 0;
             double distanceBLat = 0;
-            string stateAbbrevA= "";
-            string stateAbbrevB= "";
+            string stateAbbrevA = "";
+            string stateAbbrevB = "";
             if (citiesDictionary.ContainsKey(cityNameA))
             {
                 List<CityInfo> list = citiesDictionary[cityNameA];
@@ -132,9 +133,9 @@ namespace Project1_INFO5101
                     distanceALat = cityInfo.Latitude;
                     stateAbbrevA = cityInfo.StateAbbrev;
                 }
-            }    
-            
-            
+            }
+
+
             if (citiesDictionary.ContainsKey(cityNameB))
             {
                 List<CityInfo> list = citiesDictionary[cityNameB];
@@ -144,12 +145,11 @@ namespace Project1_INFO5101
                     distanceBLng = cityInfo.Longitude;
                     distanceBLat = cityInfo.Latitude;
                     stateAbbrevB = cityInfo.StateAbbrev;
-
                 }
             }
 
 
-          double calulatedDistance =  HaversineDistance(distanceALat, distanceALng, distanceBLat, distanceBLng);
+            double calulatedDistance = CalulateDistance(distanceALat, distanceALng, distanceBLat, distanceBLng);
             double roundedDistance = Math.Round(calulatedDistance, 1);
 
             Console.WriteLine($"The distance between {cityNameA}, {stateAbbrevA} and  {cityNameB}, {stateAbbrevB} is {roundedDistance} km ");
@@ -196,59 +196,416 @@ namespace Project1_INFO5101
                     distanceBLat = capitalCity.Latitude;
                     stateAbbrevB = capitalCity.StateAbbrev;
                     cityB = capitalCity.Name;
-                    break; 
+                    break;
                 }
             }
 
-
-
-            double calulatedDistance = HaversineDistance(distanceALat, distanceALng, distanceBLat, distanceBLng);
+            double calulatedDistance = CalulateDistance(distanceALat, distanceALng, distanceBLat, distanceBLng);
             double roundedDistance = Math.Round(calulatedDistance, 1);
 
             Console.WriteLine($"The distance between {cityA}, {stateAbbrevA} and  {cityB}, {stateAbbrevB} is {roundedDistance} km ");
         }
 
+
+        //Finds cir
+        public void ShowCityOnMap(string city)
+        {
+
+            double distanceALng = 0;
+            double distanceALat = 0;
+            string state = "";
+
+
+            if (citiesDictionary.ContainsKey(city))
+            {
+                List<CityInfo> list = citiesDictionary[city];
+
+                foreach (CityInfo cityInfo in list)
+                {
+                         state = cityInfo.State;
+                    
+                        distanceALng = cityInfo.Longitude;
+                        distanceALat = cityInfo.Latitude;
+                        break;
+                    
+
+
+                }
+            }
+
+            //Opens map based on the lon and lat values from the city and state 
+            string url = $"https://www.latlong.net/c/?lat={distanceALat}&long={distanceALng}";
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    
+                    FileName = url,
+                    UseShellExecute = true
+                });
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error opening the map: {ex.Message}");
+            }
+
+
+        }
+
+
+
+
+
+        public void ReportAllCities(string stateAbv)
+        {
+            string stateName = "";
+            uint count  = 0;
+            CityInfo? state = null;
+            foreach (var cityList in citiesDictionary.Values)
+            {
+                state = cityList.FirstOrDefault(city => city.StateAbbrev == stateAbv && city.Capital != "");
+          
+                if (state != null)
+                {
+                    stateName = state!.State;
+                    break;
+                }
+
+            }
+            if (state == null)
+            {
+                Console.WriteLine($"{stateAbv} not found");
+                return;
+            }
+            else
+            {
+                Console.WriteLine($"The following cities are in {stateName}");
+
+                List<CityInfo?> allCities = new List<CityInfo?>();
+                foreach (var cityList in citiesDictionary.Values)
+                {
+                    allCities = cityList.FindAll(c => c.StateAbbrev == stateAbv)!;
+                    foreach (var city in allCities)
+                    {
+                        Console.WriteLine($"{city.Name}");
+                        count++;
+                    }
+                }
+                Console.WriteLine($"\n{count} cities found.");
+
+            }
+                
+        }
+
+        public void ReportLargestCity(string stateAbv)
+        {
+            string stateName = ""; 
+            CityInfo? state =null;
+            foreach (var cityList in citiesDictionary.Values)
+            {
+             state = cityList.FirstOrDefault(city => city.StateAbbrev == stateAbv);
+
+                if (state != null)
+                {
+                    stateName = state!.State;
+                    break;
+                }
+
+            }
+
+            if (state == null)
+            {
+                Console.WriteLine($"{stateAbv} not found");
+                return;
+            }
+            List<CityInfo?> allCities = new List<CityInfo?>();
+            List<int> allPopulations = new();
+            string cityName = "";
+            int largestPop = 0;
+            foreach (var cityList in citiesDictionary.Values)
+            {
+                allCities = cityList.FindAll(c => c.StateAbbrev == stateAbv)!;
+                foreach (var city in allCities)
+                {
+                    allPopulations.Add(city!.Population);
+                }
+
+            }
+
+            largestPop = allPopulations.Max();
+            foreach (var cityList in citiesDictionary.Values)
+            {
+                allCities = cityList.FindAll(c => c.StateAbbrev == stateAbv)!;
+                foreach (var city in allCities)
+                {
+
+                    if (city!.Population == largestPop)
+                    {
+                        cityName = city.Name;
+                        break;
+                    }
+                }
+            }
+
+            if (state == null)
+            {
+                Console.WriteLine($"{stateAbv} not found");
+                return;
+            }
+            else
+            {
+                Console.WriteLine($"The largest city in {stateName} is {cityName} with a population of {largestPop.ToString("N0")} ");
+
+            }
+        }
+
+        /// <summary>
+        /// Reports the smallest city by population in the  selected state.
+        /// </summary>
+        /// <param name="stateAbv"></param>
+        public void ReportSmallestCity(string stateAbv)
+        {
+            string stateName = "";
+            CityInfo? state = null;
+            foreach (var cityList in citiesDictionary.Values)
+            {
+                state = cityList.FirstOrDefault(city => city.StateAbbrev == stateAbv);
+
+                if (state != null)
+                {
+                    stateName = state!.State;
+                    break;
+                }
+
+            }
+            if (state == null)
+            {
+                Console.WriteLine($"{stateAbv} not found");
+                return;
+            }
+
+            List<CityInfo?> allCities = new List<CityInfo?>();
+            List<int> allPopulations = new();
+            string cityName = "";
+            int smallestPop = 0;
+            foreach (var cityList in citiesDictionary.Values)
+            {
+                allCities = cityList.FindAll(c => c.StateAbbrev == stateAbv)!;
+                foreach (var city in allCities)
+                {
+                    allPopulations.Add(city!.Population);
+                }
+
+            }
+
+            smallestPop = allPopulations.Min();
+            foreach (var cityList in citiesDictionary.Values)
+            {
+                allCities = cityList.FindAll(c => c.StateAbbrev == stateAbv)!;
+                foreach (var city in allCities)
+                {
+
+                    if (city!.Population == smallestPop)
+                    {
+                        cityName = city.Name;
+                        break;
+                    }
+                }
+            }
+
+            if (state == null)
+            {
+                Console.WriteLine($"{stateAbv} not found");
+                return;
+            }
+            else
+            {
+                Console.WriteLine($"The smallest city in {stateName} is {cityName} with a population of {smallestPop.ToString("N0")} ");
+            }
+          
+        }
+
+
+
+
+        public void ReportCapital(string stateAbv)
+        {
+            string stateName = "";
+            string capCity = "";
+            double lon = 0, lat = 0;
+            CityInfo? state = null;
+            foreach (var cityList in citiesDictionary.Values)
+            {
+                  state = cityList.FirstOrDefault(city => city.StateAbbrev == stateAbv);
+
+               
+                if (state != null)
+                {
+                    stateName = state!.State;
+                    capCity = state!.Name;
+                    lon = state!.Longitude;
+                    lat = state!.Latitude;
+                   
+                    break;
+                }
+                
+
+            }
+            if(state == null) {
+                Console.WriteLine($"{stateAbv} not found");
+                return;
+            }
+            else
+            {
+                Console.WriteLine($"The capital city of {stateName} is {capCity}.\r\nIt's coordinates are {lat} degrees lattitude, {lon} degrees longitude.");
+            }
+          
+
+         
+        }
+
+
+
+        public void ReportStatePopulation(string stateAbv)
+        {
+            string stateName = "";
+            CityInfo? state = null;
+            foreach (var cityList in citiesDictionary.Values)
+            {
+                state = cityList.FirstOrDefault(city => city.StateAbbrev == stateAbv);
+
+                if (state != null)
+                {
+                    stateName = state!.State;
+                    break;
+                }
+
+            }
+            if (state == null)
+            {
+                Console.WriteLine($"{stateAbv} not found");
+                return;
+            }
+
+            List<CityInfo?> allCities = new List<CityInfo?>();
+            int allPopulationsTotal = 0;
+            uint count = 0;
+            foreach (var cityList in citiesDictionary.Values)
+            {
+                allCities = cityList.FindAll(c => c.StateAbbrev == stateAbv)!;
+                foreach (var city in allCities)
+                {
+                    allPopulationsTotal += city!.Population;
+                    count++;
+                }
+
+            }
+
+          
+
+            if (state == null)
+            {
+                Console.WriteLine($"{stateAbv} not found");
+                return;
+            }
+            else
+            {
+                Console.WriteLine($"The total population of the {count} cities in {stateName} is {allPopulationsTotal.ToString("N0")}. ");
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
-        /*
-       // Define Statistics class
-           Class Statistics:
-               Property:
-                   citiesDictionary (Dictionary<CityName, CityInfo>)
-               Constructor(fileName, fileType):
-                   citiesDictionary = DataModeler.ParseFile(fileName, fileType)
-               Methods:
-                   ReportCityInformation(cityName):
-                       // Display all details of the city
-
-                   ComparePopulationDensity(city1, city2):
-                       // Compare and display density of both cities
-
-                   ReportDistanceBetweenCities(city1, city2):
-                       // Calculate and display distance using latitude & longitude
-
-                   ReportDistanceFromCapital(cityName):
-                       // Calculate distance from city to its state capital
-
-                   ShowCityOnMap(cityName, stateAbbrev):
-                       // Open web browser with Google Maps URL
-
-                   ReportAllCities(stateAbbrev):
-                       // List all cities in the state
-
-                   ReportLargestCity(stateAbbrev):
-                       // Find and display largest city in the state
-
-                   ReportSmallestCity(stateAbbrev):
-                       // Find and display smallest city in the state
-
-                   ReportCapital(stateAbbrev):
-                       // Display capital city details
-
-                   ReportStatePopulation(stateAbbrev):
-                       // Sum and display population of all cities in state
 
 
-           */
 
-    
+    /*
+   // Define Statistics class
+       Class Statistics:
+           Property:
+               citiesDictionary (Dictionary<CityName, CityInfo>)
+           Constructor(fileName, fileType):
+               citiesDictionary = DataModeler.ParseFile(fileName, fileType)
+           Methods:
+               ReportCityInformation(cityName):
+                   // Display all details of the city
+
+               ComparePopulationDensity(city1, city2):
+                   // Compare and display density of both cities
+
+               ReportDistanceBetweenCities(city1, city2):
+                   // Calculate and display distance using latitude & longitude
+
+               ReportDistanceFromCapital(cityName):
+                   // Calculate distance from city to its state capital
+
+               ShowCityOnMap(cityName, stateAbbrev):
+                   // Open web browser with Google Maps URL
+
+               ReportAllCities(stateAbbrev):
+                   // List all cities in the state
+
+               ReportLargestCity(stateAbbrev):
+                   // Find and display largest city in the state
+
+               ReportSmallestCity(stateAbbrev):
+                   // Find and display smallest city in the state
+
+               ReportCapital(stateAbbrev):
+                   // Display capital city details
+
+               ReportStatePopulation(stateAbbrev):
+                   // Sum and display population of all cities in state
+
+
+       */
+
+
+
 }

@@ -1,6 +1,9 @@
 ﻿using System.Xml.Linq;
 using System.Globalization;
 using CsvHelper;
+using Newtonsoft.Json;
+using System.Runtime;
+using System;
 
 namespace Project1_INFO5101
 {
@@ -55,15 +58,15 @@ namespace Project1_INFO5101
 
             XDocument doc = XDocument.Load(fileName);
             var cities = doc.Descendants("city");
-
+            List<string> zips = new();
             foreach (var city in cities)
             {
 
-                List<string> zips = new();
-                string z = (string)city.Element("zips")!;
+                
+                //string z = (string)city.Element("zips")!;
 
 
-                zips = z.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
+             //   zips = z.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
 
                 CityInfo cityInfo = new CityInfo(
                    (int)city.Element("id")!,
@@ -76,7 +79,8 @@ namespace Project1_INFO5101
                    (int)city.Element("population")!,
                    (double)city.Element("density")!,
                    (string)city.Element("timezone")!,
-                   zips!
+                   (string)city.Element("zips")!
+                 //  zips!
                );
                 AddToDictionary(cityInfo);
             }
@@ -91,13 +95,62 @@ namespace Project1_INFO5101
         // Parse JSON file
         private void ParseJSON(string fileName)
         {
+
+            string city = ""; //add all values here
             if (!File.Exists(fileName)) throw new FileNotFoundException("File not found.");
 
             string jsonData = File.ReadAllText(fileName);
+            var cities = JsonConvert.DeserializeObject<List<CityInfo>>(jsonData);
+
+            if (cities != null)
+            {
+                foreach (var c in cities)
+                {
+                    //city=c.Id.ToString();
+                    //city = c.Name;
+                    //city = c.StateAbbrev;
+                    //city = c.State;
+                    //city = c.Capital;
+                    //city = c.TimeZone;
+                    //city = c.Population.ToString();
+                    //city = c.Density.ToString();
+                    //city = c.Latitude.ToString();
+                    //city = c.Longitude.ToString();
+                    //city = c.TimeZone;
+
+
+
+
+                    //others here...
+                  
+                  
+                   //string zips = "";
+
+                    CityInfo cityInfo = new CityInfo(
+                        c.Id,
+                        c.Name,
+                        c.StateAbbrev,
+                        c.State,
+                        c.Capital,
+                        c.Latitude,
+                        c.Longitude,
+                        c.Population,
+                        c.Density,
+                        c.TimeZone,
+                        c.Zips
+                    );
+
+                    if (!CityDictionary.ContainsKey(cityInfo.Name))
+                    {
+                        CityDictionary[cityInfo.Name] = new List<CityInfo>();
+                    }
+                    CityDictionary[cityInfo.Name].Add(cityInfo);
+                }
+            }
         }
 
-   
 
+        
 
 
         /*
@@ -143,11 +196,11 @@ namespace Project1_INFO5101
                     double.TryParse(Convert.ToString(record.density), out density);
 
                     string timezone = Convert.ToString(record.timezone);
-                    List<string> zips = new();
-                    string z =   Convert.ToString(record.zips);
-                    zips = z.Split(' ').ToList();
+                    //List<string> zips = new();
+                    //string z =   Convert.ToString(record.zips);
+                    //zips = z.Split(' ').ToList();
 
-
+                    string zips= Convert.ToString(record.zips);
                     CityInfo cityInfo = new CityInfo(id, city, stateAbbrev, state, capital, lat, lng, population, density, timezone, zips);
 
 
