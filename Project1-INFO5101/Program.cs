@@ -239,6 +239,7 @@ namespace Project1_INFO5101
             string? state = Console.ReadLine();
 
             //REPLACE WITH ACTUAL METHOD TO FETCH ALL CITIES
+            _statistics.ReportAllCities(state);
             Console.ReadKey();
         }
 

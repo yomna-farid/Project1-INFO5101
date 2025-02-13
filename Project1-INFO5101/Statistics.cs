@@ -261,17 +261,34 @@ namespace Project1_INFO5101
             foreach (var cityList in citiesDictionary.Values)
             {
                 CityInfo? state = cityList.FirstOrDefault(city => city.StateAbbrev == stateAbv && city.Capital != "");
-                
-
+          
                 if (state != null)
                 {
-                    stateName = state!.Name;
+                    stateName = state!.State;
                     break;
                 }
 
             }
+            Console.WriteLine($"The following cities are in {stateName}");
+            
+            List<CityInfo?> allCities = new List<CityInfo?>();
+            foreach (var cityList in citiesDictionary.Values)
+            {
+                allCities =  cityList.FindAll(c => c.StateAbbrev == stateAbv)!;
+                foreach (var city in allCities)
+                {
+                    Console.WriteLine($"{city.Name}");
 
-           // foreach(var cityList in citiesDictionary.Values.Where(city => city == stateAbv)
+                }
+            }
+               
+        }
+
+        //public void ReportAllCities(string stateAbv)
+        //{
+
+        //}
+
 
             //// List<string> allCities = new List<string>();
             // foreach (var cityList in citiesDictionary.Values.Where(city => city.StateAbbrev == stateAbv && city.Capital != "");
@@ -292,59 +309,59 @@ namespace Project1_INFO5101
             //   CityInfo? capitalCity = cityList.FirstOrDefault(city => city.StateAbbrev == stateAbbrevA && city.Capital != "");
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
 
 
 
