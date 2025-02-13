@@ -46,7 +46,7 @@ namespace Project1_INFO5101
                     Console.WriteLine("{0,-20} {1,-15}", "Longitude:", cityInfo.Longitude);
                     Console.WriteLine("{0,-20} {1,-15}", "Latitude:", cityInfo.Latitude);
                     Console.WriteLine("{0,-20} {1,-15}", "Time Zone:", cityInfo.TimeZone);
-                    Console.WriteLine("{0,-20} {1,-15}", "Capital:", cityInfo.Capital.Equals("") ? "No" : cityInfo.Capital);
+                    Console.WriteLine("{0,-20} {1,-15}", "Capital:", cityInfo.Capital == null || cityInfo.Capital.Equals("") ? "No" : cityInfo.Capital);
 
                     count++;
                 }
