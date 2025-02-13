@@ -101,6 +101,7 @@ namespace Project1_INFO5101
             {
                 foreach (var city in cities)
                 {
+
                     if (!CityDictionary.ContainsKey(city.Name))
                     {
                         CityDictionary[city.Name] = new List<CityInfo>();
