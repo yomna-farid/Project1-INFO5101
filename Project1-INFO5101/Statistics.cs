@@ -1,14 +1,16 @@
 ﻿/*
  * Name: Joy Owoeyeb
  */
-
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
 using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Project1_INFO5101
 {
@@ -50,8 +52,8 @@ namespace Project1_INFO5101
         public void ComparePopulationDensity(string cityNameA, string cityNameB)
         {
 
-            double densityA=0, densityB = 0;
-            string cityA = "", cityB = "", stateAbbrevA = "",  stateAbbrevB = "";
+            double densityA = 0, densityB = 0;
+            string cityA = "", cityB = "", stateAbbrevA = "", stateAbbrevB = "";
 
             if (citiesDictionary.ContainsKey(cityNameA))
             {
@@ -80,25 +82,23 @@ namespace Project1_INFO5101
 
                 Console.WriteLine($"{cityB}, {stateAbbrevB}  has a population density of {densityB.ToString("N0")} people per sq. km");
             }
-           
-           string nameAndState = densityA > densityB ? cityNameA + ", " + stateAbbrevA : cityNameB + ", " + stateAbbrevB;
+
+            string nameAndState = densityA > densityB ? cityNameA + ", " + stateAbbrevA : cityNameB + ", " + stateAbbrevB;
             Console.WriteLine($"\n{nameAndState} has the higher population density");
-            
+
         }
 
-        // Haversine Formula to calculate distance between two latitude/longitude points https://en.wikipedia.org/wiki/Haversine_formula
-        static double HaversineDistance(double lat1, double lon1, double lat2, double lon2)
+        // Uses  Haversine Formula to calculate distance between two latitude/longitude points https://en.wikipedia.org/wiki/Haversine_formula
+        private double CalulateDistance(double lat1, double lon1, double lat2, double lon2)
         {
-            const double R = 6371; // Radius of Earth in km
-            double dLat = DegreesToRadians(lat2 - lat1);
-            double dLon = DegreesToRadians(lon2 - lon1);
-            double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-                       Math.Cos(DegreesToRadians(lat1)) * Math.Cos(DegreesToRadians(lat2)) *
-                       Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+            const double Radius = 6371; // Radius of Earth in km
+            double distanceLat = (lat2 - lat1) * Math.PI / 180;
+            double distanceLon = (lon2 - lon1) * Math.PI / 180;
+            double a = Math.Sin(distanceLat / 2) * Math.Sin(distanceLat / 2) + Math.Cos((lat1) * Math.PI / 180 * Math.PI / 180) * Math.Cos((lat2) * Math.PI / 180) * Math.Sin(distanceLon / 2) * Math.Sin(distanceLon / 2);
             double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-            return R * c;
+            return Radius * c;
         }
-        static double DegreesToRadians(double degrees) => degrees * Math.PI / 180;
+
 
         public void ReportDistanceBetweenCities(string cityNameA, string cityNameB)
         {
@@ -106,8 +106,8 @@ namespace Project1_INFO5101
             double distanceALat = 0;
             double distanceBLng = 0;
             double distanceBLat = 0;
-            string stateAbbrevA= "";
-            string stateAbbrevB= "";
+            string stateAbbrevA = "";
+            string stateAbbrevB = "";
             if (citiesDictionary.ContainsKey(cityNameA))
             {
                 List<CityInfo> list = citiesDictionary[cityNameA];
@@ -118,9 +118,9 @@ namespace Project1_INFO5101
                     distanceALat = cityInfo.Latitude;
                     stateAbbrevA = cityInfo.StateAbbrev;
                 }
-            }    
-            
-            
+            }
+
+
             if (citiesDictionary.ContainsKey(cityNameB))
             {
                 List<CityInfo> list = citiesDictionary[cityNameB];
@@ -130,12 +130,11 @@ namespace Project1_INFO5101
                     distanceBLng = cityInfo.Longitude;
                     distanceBLat = cityInfo.Latitude;
                     stateAbbrevB = cityInfo.StateAbbrev;
-
                 }
             }
 
 
-          double calulatedDistance =  HaversineDistance(distanceALat, distanceALng, distanceBLat, distanceBLng);
+            double calulatedDistance = CalulateDistance(distanceALat, distanceALng, distanceBLat, distanceBLng);
             double roundedDistance = Math.Round(calulatedDistance, 1);
 
             Console.WriteLine($"The distance between {cityNameA}, {stateAbbrevA} and  {cityNameB}, {stateAbbrevB} is {roundedDistance} km ");
@@ -181,59 +180,183 @@ namespace Project1_INFO5101
                     distanceBLat = capitalCity.Latitude;
                     stateAbbrevB = capitalCity.StateAbbrev;
                     cityB = capitalCity.Name;
-                    break; 
+                    break;
                 }
             }
 
-
-
-            double calulatedDistance = HaversineDistance(distanceALat, distanceALng, distanceBLat, distanceBLng);
+            double calulatedDistance = CalulateDistance(distanceALat, distanceALng, distanceBLat, distanceBLng);
             double roundedDistance = Math.Round(calulatedDistance, 1);
 
             Console.WriteLine($"The distance between {cityA}, {stateAbbrevA} and  {cityB}, {stateAbbrevB} is {roundedDistance} km ");
         }
 
+
+        //Finds cir
+        public void ShowCityOnMap(string city, string state)
+        {
+
+            double distanceALng = 0;
+            double distanceALat = 0;
+
+
+            if (citiesDictionary.ContainsKey(city))
+            {
+                List<CityInfo> list = citiesDictionary[city];
+
+                foreach (CityInfo cityInfo in list)
+                {
+                    if (state == cityInfo.State)
+                    {
+                        distanceALng = cityInfo.Longitude;
+                        distanceALat = cityInfo.Latitude;
+                        break;
+                    }
+
+
+                }
+            }
+
+
+            //Opens map based on the lon and lat values from the city and state 
+            string url = $"https://www.latlong.net/c/?lat={distanceALat}&long={distanceALng}";
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = url,
+                    UseShellExecute = true
+                });
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error opening the map: {ex.Message}");
+            }
+
+
+        }
+
+
+
+
+
+        public void ReportAllCities(string stateAbv)
+        {
+           // List<string> allCities = new List<string>();
+            foreach (var cityList in citiesDictionary.Values)
+            {
+                 CityInfo? capitalCity = cityList.FirstOrDefault(city => city.StateAbbrev == stateAbv && city.Capital != "");
+                  if (capitalCity != null)
+                   {
+                      Console.WriteLine($"e following cities are in {capitalCity.State}");
+
+                        Console.WriteLine($"{capitalCity.Name}\n");
+
+                   }
+
+              
+
+            }
+            //   CityInfo? capitalCity = cityList.FirstOrDefault(city => city.StateAbbrev == stateAbbrevA && city.Capital != "");
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
-        /*
-       // Define Statistics class
-           Class Statistics:
-               Property:
-                   citiesDictionary (Dictionary<CityName, CityInfo>)
-               Constructor(fileName, fileType):
-                   citiesDictionary = DataModeler.ParseFile(fileName, fileType)
-               Methods:
-                   ReportCityInformation(cityName):
-                       // Display all details of the city
-
-                   ComparePopulationDensity(city1, city2):
-                       // Compare and display density of both cities
-
-                   ReportDistanceBetweenCities(city1, city2):
-                       // Calculate and display distance using latitude & longitude
-
-                   ReportDistanceFromCapital(cityName):
-                       // Calculate distance from city to its state capital
-
-                   ShowCityOnMap(cityName, stateAbbrev):
-                       // Open web browser with Google Maps URL
-
-                   ReportAllCities(stateAbbrev):
-                       // List all cities in the state
-
-                   ReportLargestCity(stateAbbrev):
-                       // Find and display largest city in the state
-
-                   ReportSmallestCity(stateAbbrev):
-                       // Find and display smallest city in the state
-
-                   ReportCapital(stateAbbrev):
-                       // Display capital city details
-
-                   ReportStatePopulation(stateAbbrev):
-                       // Sum and display population of all cities in state
 
 
-           */
 
-    
+    /*
+   // Define Statistics class
+       Class Statistics:
+           Property:
+               citiesDictionary (Dictionary<CityName, CityInfo>)
+           Constructor(fileName, fileType):
+               citiesDictionary = DataModeler.ParseFile(fileName, fileType)
+           Methods:
+               ReportCityInformation(cityName):
+                   // Display all details of the city
+
+               ComparePopulationDensity(city1, city2):
+                   // Compare and display density of both cities
+
+               ReportDistanceBetweenCities(city1, city2):
+                   // Calculate and display distance using latitude & longitude
+
+               ReportDistanceFromCapital(cityName):
+                   // Calculate distance from city to its state capital
+
+               ShowCityOnMap(cityName, stateAbbrev):
+                   // Open web browser with Google Maps URL
+
+               ReportAllCities(stateAbbrev):
+                   // List all cities in the state
+
+               ReportLargestCity(stateAbbrev):
+                   // Find and display largest city in the state
+
+               ReportSmallestCity(stateAbbrev):
+                   // Find and display smallest city in the state
+
+               ReportCapital(stateAbbrev):
+                   // Display capital city details
+
+               ReportStatePopulation(stateAbbrev):
+                   // Sum and display population of all cities in state
+
+
+       */
+
+
+
 }
