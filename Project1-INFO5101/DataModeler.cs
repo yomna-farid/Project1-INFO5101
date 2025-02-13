@@ -2,6 +2,8 @@
 using System.Globalization;
 using CsvHelper;
 using Newtonsoft.Json;
+using System.Runtime;
+using System;
 
 namespace Project1_INFO5101
 {
@@ -92,6 +94,9 @@ namespace Project1_INFO5101
         // Parse JSON file
         private void ParseJSON(string fileName)
         {
+
+            string city = ""; //add all values here
+            List<string> zips;
             if (!File.Exists(fileName)) throw new FileNotFoundException("File not found.");
 
             string jsonData = File.ReadAllText(fileName);
@@ -99,14 +104,17 @@ namespace Project1_INFO5101
 
             if (cities != null)
             {
-                foreach (var city in cities)
+                foreach (var c in cities)
                 {
+                    city = c.Name;
+                    //others here...
+                    zips = new List<string>();
+                    string z = Convert.ToString(c.Zips)!;
+                    zips = z.Split(' ').ToList();
 
-                    if (!CityDictionary.ContainsKey(city.Name))
-                    {
-                        CityDictionary[city.Name] = new List<CityInfo>();
-                    }
-                    CityDictionary[city.Name].Add(city);
+                    //   CityInfo cityInfo = new CityInfo(id, city, stateAbbrev, state, capital, lat, lng, population, density, timezone, zips);
+                  //  AddToDictionary(cityInfo);
+
                 }
             }
 
