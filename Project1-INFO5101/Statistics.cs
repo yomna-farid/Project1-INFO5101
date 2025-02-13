@@ -257,21 +257,38 @@ namespace Project1_INFO5101
 
         public void ReportAllCities(string stateAbv)
         {
-           // List<string> allCities = new List<string>();
+            string stateName = "";
             foreach (var cityList in citiesDictionary.Values)
             {
-                 CityInfo? capitalCity = cityList.FirstOrDefault(city => city.StateAbbrev == stateAbv && city.Capital != "");
-                  if (capitalCity != null)
-                   {
-                      Console.WriteLine($"e following cities are in {capitalCity.State}");
+                CityInfo? state = cityList.FirstOrDefault(city => city.StateAbbrev == stateAbv && city.Capital != "");
+                
 
-                        Console.WriteLine($"{capitalCity.Name}\n");
-
-                   }
-
-              
+                if (state != null)
+                {
+                    stateName = state!.Name;
+                    break;
+                }
 
             }
+
+           // foreach(var cityList in citiesDictionary.Values.Where(city => city == stateAbv)
+
+            //// List<string> allCities = new List<string>();
+            // foreach (var cityList in citiesDictionary.Values.Where(city => city.StateAbbrev == stateAbv && city.Capital != "");
+            // {
+
+            //      CityInfo? capitalCity = cityList.FirstOrDefault(city => city.StateAbbrev == stateAbv && city.Capital != "");
+            //       if (capitalCity != null)
+            //        {
+            //           Console.WriteLine($"e following cities are in {capitalCity.State}");
+
+            //             Console.WriteLine($"{capitalCity.Name}\n");
+
+            //        }
+
+
+
+            // }
             //   CityInfo? capitalCity = cityList.FirstOrDefault(city => city.StateAbbrev == stateAbbrevA && city.Capital != "");
 
 
