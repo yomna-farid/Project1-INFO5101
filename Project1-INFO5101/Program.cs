@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Project1_INFO5101
 {
@@ -19,9 +20,9 @@ namespace Project1_INFO5101
         private static void ProgramTitle()
         {
             Console.Clear();
-            Console.WriteLine($"U.S. Cities Information System v1.0         {MenuTitle}          Data Format: {DataFormat}");
+            Console.WriteLine($"U.S. Cities Information System v1.0    {MenuTitle}   Data Format: {DataFormat}");
 
-            Console.WriteLine("----------------------------------------------------------------------------------------------\n");
+            Console.WriteLine("----------------------------------------------------------------------------------\n");
         }
 
         private static int GetMenuSelection(int min, int max)
@@ -37,6 +38,17 @@ namespace Project1_INFO5101
                 }
                 Console.WriteLine($"Invalid input. Please enter a selection between {min} and {max}");
             }
+        }
+
+        private static void ConsoleMessage() 
+        {
+            Console.WriteLine("Press any key to continue...");
+            Environment.Exit(0);
+        }
+
+        private static void Clear()
+        {
+            Console.Clear();
         }
 
         private static void DataSourceSelection()
@@ -93,7 +105,7 @@ namespace Project1_INFO5101
                     case 1: CityOptions(); break;
                     case 2: StateOptions(); break;
                     case 3: return; //NOT IMPLEMENTED YET
-                    case 4: break;
+                    case 4: ExitProgram(); break;
                 }
             }
         }
@@ -115,12 +127,12 @@ namespace Project1_INFO5101
                 int choice = GetMenuSelection(1, 7);
                 switch (choice)
                 {
-                    case 1: CityInformation(); break;
-                    case 2: ComparePopulationDensity(); break;
-                    case 3: DistanceBetweenCities(); break;
-                    case 4: DistanceFromCapital(); break;
-                    case 5: ShowCityOnMap(); break;
-                    case 6: AdjustCityPopulation(); break;
+                    case 1: MenuTitle = "CITY INFORMATION"; CityInformation(); break;
+                    case 2: MenuTitle = "COMPARE POPULATION DENSITY"; ComparePopulationDensity(); break;
+                    case 3: MenuTitle = "DISTANCE BETWEEN CITIES"; DistanceBetweenCities(); break;
+                    case 4: MenuTitle = "DISTANCE FROM CAPITAL"; DistanceFromCapital(); break;
+                    case 5: MenuTitle = "SHOW CITY ON MAP"; ShowCityOnMap(); break;
+                    case 6: MenuTitle = "ADJUST CITY POPULATION"; AdjustCityPopulation(); break;
                     case 7: return;
                 }
             }
@@ -142,11 +154,11 @@ namespace Project1_INFO5101
                 int choice = GetMenuSelection(1, 6);
                 switch (choice)
                 {
-                    case 1: ListAllCities(); break;
-                    case 2: LargestCity(); break;
-                    case 3: SmallestCity(); break;
-                    case 4: CapitalCity(); break;
-                    case 5: StatePopulation(); break;
+                    case 1: MenuTitle = "LIST ALL CITIES";  ListAllCities();  break;
+                    case 2: MenuTitle = "LARGEST CITY"; LargestCity(); break;
+                    case 3: MenuTitle = "SMALLEST CITY"; SmallestCity(); break;
+                    case 4: MenuTitle = "CAPITAL CITY"; CapitalCity(); break;
+                    case 5: MenuTitle = "STATE POPULATION"; StatePopulation(); break;
                     case 6: return;
                 }
             }
@@ -157,8 +169,7 @@ namespace Project1_INFO5101
         //All City Option methods
         private static void CityInformation()
         {
-            Console.Clear();
-            MenuTitle = "CITY INFORMATION";
+            Clear();
             ProgramTitle();
 
             bool isValidCity = false;  
@@ -169,11 +180,14 @@ namespace Project1_INFO5101
                 isValidCity = _statistics.ReportCityInformation(cityName);
             }
 
-           Console.ReadKey();
+            ConsoleMessage();
         }
 
         private static void ComparePopulationDensity()
         {
+            Clear();
+            ProgramTitle();
+
             Console.Write("\nEnter first city name: ");
             string? city1 = Console.ReadLine();
             Console.Write("Enter second city name: ");
@@ -181,49 +195,61 @@ namespace Project1_INFO5101
             
             _statistics.ComparePopulationDensity(city1, city2);
 
-            Console.ReadKey();
+            ConsoleMessage();
         }
 
         private static void DistanceBetweenCities()
         {
+            Clear();
+            ProgramTitle();
+
             Console.Write("\nEnter first city name: ");
             string? city1 = Console.ReadLine();
             Console.Write("Enter second city name: ");
             string? city2 = Console.ReadLine();
 
             _statistics.ReportDistanceBetweenCities(city1, city2);
-           
-            Console.ReadKey();
+
+            ConsoleMessage();
         }
 
         private static void DistanceFromCapital()
         {
+            Clear();
+            ProgramTitle();
+
             Console.Write("\nEnter city name: ");
             string? cityName = Console.ReadLine();
             _statistics.ReportDistanceFromCapital(cityName);
 
-            Console.ReadKey();
+            ConsoleMessage();
         }
 
         private static void ShowCityOnMap()
         {
+            Clear();
+            ProgramTitle();
+
             Console.Write("\nEnter city name: ");
             string? cityName = Console.ReadLine();
 
             //REPLACE WITH ACTUAL METHOD TO OPEN MAP
             Console.WriteLine($"Opening map for {cityName}...");
-            Console.ReadKey();
+            ConsoleMessage();
         }
 
         private static void AdjustCityPopulation()
         {
+            Clear();
+            ProgramTitle();
+
             Console.Write("\nEnter city name: ");
             string? cityName = Console.ReadLine();
             Console.Write("Enter new population: ");
             if (int.TryParse(Console.ReadLine(), out int newPopulation))
             {
                 //REPLACE WITH ACTUAL METHOD TO ADJUST POPULATION
-                Console.ReadKey();
+                ConsoleMessage();
             }
             else
             {
@@ -235,28 +261,37 @@ namespace Project1_INFO5101
         //All State Option methods no 
         private static void ListAllCities()
         {
+            Clear();
+            ProgramTitle();
+
             Console.Write("\nEnter state abbreviation: ");
             string? state = Console.ReadLine();
 
             //REPLACE WITH ACTUAL METHOD TO FETCH ALL CITIES
-            Console.ReadKey();
+            ConsoleMessage();
         }
 
         private static void LargestCity()
         {
+            Clear();
+            ProgramTitle();
+
             Console.Write("\nEnter state abbreviation: ");
             string? state = Console.ReadLine();
 
             //REPLACE WITH ACTUAL METHOD TO LARGEST CITY
-            Console.ReadKey();
+            ConsoleMessage();
         }
 
         private static void SmallestCity()
         {
+            Clear();
+            ProgramTitle();
+
             Console.Write("\nEnter state abbreviation: ");
             string? state = Console.ReadLine();
             //REPLACE WITH ACTUAL METHOD TO SMALLEST CITY
-            Console.ReadKey();
+            ConsoleMessage();
         }
         public static void ExitProgram()
         {
@@ -266,18 +301,26 @@ namespace Project1_INFO5101
 
         private static void CapitalCity()
         {
+            Clear();
+            ProgramTitle();
+
             Console.Write("\nEnter state abbreviation: ");
             string? state = Console.ReadLine();
             //REPLACE WITH ACTUAL METHOD TO CAPITAL CITY
-            Console.ReadKey();
+            ConsoleMessage();
         }
 
         private static void StatePopulation()
         {
+            Clear();
+            ProgramTitle();
+
             Console.Write("\nEnter state abbreviation: ");
             string? state = Console.ReadLine();
             //REPLACE WITH ACTUAL METHOD TO STATE POPULATION
-            Console.ReadKey();
+            ConsoleMessage();
+
+
         }
     }
 }
