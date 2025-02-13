@@ -212,6 +212,7 @@ namespace Project1_INFO5101
 
             //REPLACE WITH ACTUAL METHOD TO OPEN MAP
             Console.WriteLine($"Opening map for {cityName}...");
+            _statistics.ShowCityOnMap(cityName);
             Console.ReadKey();
         }
 
@@ -249,6 +250,7 @@ namespace Project1_INFO5101
             string? state = Console.ReadLine();
 
             //REPLACE WITH ACTUAL METHOD TO LARGEST CITY
+            _statistics.ReportLargestCity(state!);
             Console.ReadKey();
         }
 
@@ -257,6 +259,7 @@ namespace Project1_INFO5101
             Console.Write("\nEnter state abbreviation: ");
             string? state = Console.ReadLine();
             //REPLACE WITH ACTUAL METHOD TO SMALLEST CITY
+            _statistics.ReportSmallestCity(state!);
             Console.ReadKey();
         }
         public static void ExitProgram()
@@ -270,6 +273,7 @@ namespace Project1_INFO5101
             Console.Write("\nEnter state abbreviation: ");
             string? state = Console.ReadLine();
             //REPLACE WITH ACTUAL METHOD TO CAPITAL CITY
+            _statistics.ReportCapital(state!);
             Console.ReadKey();
         }
 
@@ -278,6 +282,7 @@ namespace Project1_INFO5101
             Console.Write("\nEnter state abbreviation: ");
             string? state = Console.ReadLine();
             //REPLACE WITH ACTUAL METHOD TO STATE POPULATION
+            _statistics.ReportStatePopulation(state!);
             Console.ReadKey();
         }
     }

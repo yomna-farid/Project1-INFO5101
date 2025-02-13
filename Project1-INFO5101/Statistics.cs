@@ -1,5 +1,5 @@
 ﻿/*
- * Name: Joy Owoeyeb
+ * Name: Joy Owoeye, 
  */
 using Newtonsoft.Json.Linq;
 using System;
@@ -11,6 +11,7 @@ using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Project1_INFO5101
 {
@@ -207,11 +208,12 @@ namespace Project1_INFO5101
 
 
         //Finds cir
-        public void ShowCityOnMap(string city, string state)
+        public void ShowCityOnMap(string city)
         {
 
             double distanceALng = 0;
             double distanceALat = 0;
+            string state = "";
 
 
             if (citiesDictionary.ContainsKey(city))
@@ -220,17 +222,16 @@ namespace Project1_INFO5101
 
                 foreach (CityInfo cityInfo in list)
                 {
-                    if (state == cityInfo.State)
-                    {
+                         state = cityInfo.State;
+                    
                         distanceALng = cityInfo.Longitude;
                         distanceALat = cityInfo.Latitude;
                         break;
-                    }
+                    
 
 
                 }
             }
-
 
             //Opens map based on the lon and lat values from the city and state 
             string url = $"https://www.latlong.net/c/?lat={distanceALat}&long={distanceALng}";
@@ -238,6 +239,7 @@ namespace Project1_INFO5101
             {
                 Process.Start(new ProcessStartInfo
                 {
+                    
                     FileName = url,
                     UseShellExecute = true
                 });
@@ -258,9 +260,11 @@ namespace Project1_INFO5101
         public void ReportAllCities(string stateAbv)
         {
             string stateName = "";
+            uint count  = 0;
+            CityInfo? state = null;
             foreach (var cityList in citiesDictionary.Values)
             {
-                CityInfo? state = cityList.FirstOrDefault(city => city.StateAbbrev == stateAbv && city.Capital != "");
+                state = cityList.FirstOrDefault(city => city.StateAbbrev == stateAbv && city.Capital != "");
           
                 if (state != null)
                 {
@@ -269,99 +273,295 @@ namespace Project1_INFO5101
                 }
 
             }
-            Console.WriteLine($"The following cities are in {stateName}");
-            
-            List<CityInfo?> allCities = new List<CityInfo?>();
+            if (state == null)
+            {
+                Console.WriteLine($"{stateAbv} not found");
+                return;
+            }
+            else
+            {
+                Console.WriteLine($"The following cities are in {stateName}");
+
+                List<CityInfo?> allCities = new List<CityInfo?>();
+                foreach (var cityList in citiesDictionary.Values)
+                {
+                    allCities = cityList.FindAll(c => c.StateAbbrev == stateAbv)!;
+                    foreach (var city in allCities)
+                    {
+                        Console.WriteLine($"{city.Name}");
+                        count++;
+                    }
+                }
+                Console.WriteLine($"\n{count} cities found.");
+
+            }
+                
+        }
+
+        public void ReportLargestCity(string stateAbv)
+        {
+            string stateName = ""; 
+            CityInfo? state =null;
             foreach (var cityList in citiesDictionary.Values)
             {
-                allCities =  cityList.FindAll(c => c.StateAbbrev == stateAbv)!;
+             state = cityList.FirstOrDefault(city => city.StateAbbrev == stateAbv);
+
+                if (state != null)
+                {
+                    stateName = state!.State;
+                    break;
+                }
+
+            }
+
+            if (state == null)
+            {
+                Console.WriteLine($"{stateAbv} not found");
+                return;
+            }
+            List<CityInfo?> allCities = new List<CityInfo?>();
+            List<int> allPopulations = new();
+            string cityName = "";
+            int largestPop = 0;
+            foreach (var cityList in citiesDictionary.Values)
+            {
+                allCities = cityList.FindAll(c => c.StateAbbrev == stateAbv)!;
                 foreach (var city in allCities)
                 {
-                    Console.WriteLine($"{city.Name}");
+                    allPopulations.Add(city!.Population);
+                }
 
+            }
+
+            largestPop = allPopulations.Max();
+            foreach (var cityList in citiesDictionary.Values)
+            {
+                allCities = cityList.FindAll(c => c.StateAbbrev == stateAbv)!;
+                foreach (var city in allCities)
+                {
+
+                    if (city!.Population == largestPop)
+                    {
+                        cityName = city.Name;
+                        break;
+                    }
                 }
             }
+
+            if (state == null)
+            {
+                Console.WriteLine($"{stateAbv} not found");
+                return;
+            }
+            else
+            {
+                Console.WriteLine($"The largest city in {stateName} is {cityName} with a population of {largestPop.ToString("N0")} ");
+
+            }
+        }
+
+        /// <summary>
+        /// Reports the smallest city by population in the  selected state.
+        /// </summary>
+        /// <param name="stateAbv"></param>
+        public void ReportSmallestCity(string stateAbv)
+        {
+            string stateName = "";
+            CityInfo? state = null;
+            foreach (var cityList in citiesDictionary.Values)
+            {
+                state = cityList.FirstOrDefault(city => city.StateAbbrev == stateAbv);
+
+                if (state != null)
+                {
+                    stateName = state!.State;
+                    break;
+                }
+
+            }
+            if (state == null)
+            {
+                Console.WriteLine($"{stateAbv} not found");
+                return;
+            }
+
+            List<CityInfo?> allCities = new List<CityInfo?>();
+            List<int> allPopulations = new();
+            string cityName = "";
+            int smallestPop = 0;
+            foreach (var cityList in citiesDictionary.Values)
+            {
+                allCities = cityList.FindAll(c => c.StateAbbrev == stateAbv)!;
+                foreach (var city in allCities)
+                {
+                    allPopulations.Add(city!.Population);
+                }
+
+            }
+
+            smallestPop = allPopulations.Min();
+            foreach (var cityList in citiesDictionary.Values)
+            {
+                allCities = cityList.FindAll(c => c.StateAbbrev == stateAbv)!;
+                foreach (var city in allCities)
+                {
+
+                    if (city!.Population == smallestPop)
+                    {
+                        cityName = city.Name;
+                        break;
+                    }
+                }
+            }
+
+            if (state == null)
+            {
+                Console.WriteLine($"{stateAbv} not found");
+                return;
+            }
+            else
+            {
+                Console.WriteLine($"The smallest city in {stateName} is {cityName} with a population of {smallestPop.ToString("N0")} ");
+            }
+          
+        }
+
+
+
+
+        public void ReportCapital(string stateAbv)
+        {
+            string stateName = "";
+            string capCity = "";
+            double lon = 0, lat = 0;
+            CityInfo? state = null;
+            foreach (var cityList in citiesDictionary.Values)
+            {
+                  state = cityList.FirstOrDefault(city => city.StateAbbrev == stateAbv);
+
                
+                if (state != null)
+                {
+                    stateName = state!.State;
+                    capCity = state!.Name;
+                    lon = state!.Longitude;
+                    lat = state!.Latitude;
+                   
+                    break;
+                }
+                
+
+            }
+            if(state == null) {
+                Console.WriteLine($"{stateAbv} not found");
+                return;
+            }
+            else
+            {
+                Console.WriteLine($"The capital city of {stateName} is {capCity}.\r\nIt's coordinates are {lat} degrees lattitude, {lon} degrees longitude.");
+            }
+          
+
+         
         }
 
-        //public void ReportAllCities(string stateAbv)
-        //{
-
-        //}
 
 
-            //// List<string> allCities = new List<string>();
-            // foreach (var cityList in citiesDictionary.Values.Where(city => city.StateAbbrev == stateAbv && city.Capital != "");
-            // {
+        public void ReportStatePopulation(string stateAbv)
+        {
+            string stateName = "";
+            CityInfo? state = null;
+            foreach (var cityList in citiesDictionary.Values)
+            {
+                state = cityList.FirstOrDefault(city => city.StateAbbrev == stateAbv);
 
-            //      CityInfo? capitalCity = cityList.FirstOrDefault(city => city.StateAbbrev == stateAbv && city.Capital != "");
-            //       if (capitalCity != null)
-            //        {
-            //           Console.WriteLine($"e following cities are in {capitalCity.State}");
+                if (state != null)
+                {
+                    stateName = state!.State;
+                    break;
+                }
 
-            //             Console.WriteLine($"{capitalCity.Name}\n");
+            }
+            if (state == null)
+            {
+                Console.WriteLine($"{stateAbv} not found");
+                return;
+            }
 
-            //        }
+            List<CityInfo?> allCities = new List<CityInfo?>();
+            int allPopulationsTotal = 0;
+            uint count = 0;
+            foreach (var cityList in citiesDictionary.Values)
+            {
+                allCities = cityList.FindAll(c => c.StateAbbrev == stateAbv)!;
+                foreach (var city in allCities)
+                {
+                    allPopulationsTotal += city!.Population;
+                    count++;
+                }
 
+            }
 
+          
 
-            // }
-            //   CityInfo? capitalCity = cityList.FirstOrDefault(city => city.StateAbbrev == stateAbbrevA && city.Capital != "");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            if (state == null)
+            {
+                Console.WriteLine($"{stateAbv} not found");
+                return;
+            }
+            else
+            {
+                Console.WriteLine($"The total population of the {count} cities in {stateName} is {allPopulationsTotal.ToString("N0")}. ");
+            }
 
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
 
 
 

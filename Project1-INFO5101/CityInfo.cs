@@ -18,10 +18,11 @@ namespace Project1_INFO5101
         public int Population { get; set; }
         public double Density { get; set; }
         public string TimeZone { get; set; }
-        public List<string> Zips { get; set; }
+      //  public List<string> Zips { get; set; }
+        public string Zips { get; set; }
 
 
-        public CityInfo(int id, string name, string stateAbbrev, string state, string capital, double latitude, double longitude, int population, double density, string timeZone, List<string> zips)
+        public CityInfo(int id, string name, string stateAbbrev, string state, string capital, double latitude, double longitude, int population, double density, string timeZone, string zips)
         {
             Id = id;
             Name = name;

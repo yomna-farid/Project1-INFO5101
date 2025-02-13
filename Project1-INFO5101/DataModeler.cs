@@ -63,10 +63,10 @@ namespace Project1_INFO5101
             {
 
                 
-                string z = (string)city.Element("zips")!;
+                //string z = (string)city.Element("zips")!;
 
 
-                zips = z.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
+             //   zips = z.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
 
                 CityInfo cityInfo = new CityInfo(
                    (int)city.Element("id")!,
@@ -79,7 +79,8 @@ namespace Project1_INFO5101
                    (int)city.Element("population")!,
                    (double)city.Element("density")!,
                    (string)city.Element("timezone")!,
-                   zips!
+                   (string)city.Element("zips")!
+                 //  zips!
                );
                 AddToDictionary(cityInfo);
             }
@@ -96,7 +97,6 @@ namespace Project1_INFO5101
         {
 
             string city = ""; //add all values here
-            List<string> zips;
             if (!File.Exists(fileName)) throw new FileNotFoundException("File not found.");
 
             string jsonData = File.ReadAllText(fileName);
@@ -122,10 +122,7 @@ namespace Project1_INFO5101
 
 
                     //others here...
-                    zips = new List<string>();
-                    string z = Convert.ToString(c.Zips)!;
-                    zips = z.Split(' ').ToList();
-
+                  
                   
                    //string zips = "";
 
@@ -140,7 +137,7 @@ namespace Project1_INFO5101
                         c.Population,
                         c.Density,
                         c.TimeZone,
-                        zips
+                        c.Zips
                     );
 
                     if (!CityDictionary.ContainsKey(cityInfo.Name))
@@ -199,11 +196,11 @@ namespace Project1_INFO5101
                     double.TryParse(Convert.ToString(record.density), out density);
 
                     string timezone = Convert.ToString(record.timezone);
-                    List<string> zips = new();
-                    string z =   Convert.ToString(record.zips);
-                    zips = z.Split(' ').ToList();
+                    //List<string> zips = new();
+                    //string z =   Convert.ToString(record.zips);
+                    //zips = z.Split(' ').ToList();
 
-
+                    string zips= Convert.ToString(record.zips);
                     CityInfo cityInfo = new CityInfo(id, city, stateAbbrev, state, capital, lat, lng, population, density, timezone, zips);
 
 
