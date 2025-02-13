@@ -258,6 +258,11 @@ namespace Project1_INFO5101
             //REPLACE WITH ACTUAL METHOD TO SMALLEST CITY
             Console.ReadKey();
         }
+        public static void ExitProgram()
+        {
+            Console.WriteLine("\nThank you for using the U.S. Cities Information System.");
+            Environment.Exit(0);
+        }
 
         private static void CapitalCity()
         {

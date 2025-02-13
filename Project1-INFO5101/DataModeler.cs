@@ -58,26 +58,26 @@ namespace Project1_INFO5101
 
             foreach (var city in cities)
             {
-               
+
                 List<string> zips = new();
                 string z = (string)city.Element("zips")!;
 
-               
+
                 zips = z.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
-                
-                 CityInfo cityInfo = new CityInfo(
-                    (int)city.Element("id")!,
-                    (string)city.Element("name")!,
-                    (string)city.Element("state_abbrev")!,
-                    (string)city.Element("state")!,
-                    (string)city.Element("capital")!,
-                    (double)city.Element("lat")!,
-                    (double)city.Element("lng")!,
-                    (int)city.Element("population")!,
-                    (double)city.Element("density")!,
-                    (string)city.Element("timezone")!,
-                    zips!
-                );
+
+                CityInfo cityInfo = new CityInfo(
+                   (int)city.Element("id")!,
+                   (string)city.Element("name")!,
+                   (string)city.Element("state_abbrev")!,
+                   (string)city.Element("state")!,
+                   (string)city.Element("capital")!,
+                   (double)city.Element("lat")!,
+                   (double)city.Element("lng")!,
+                   (int)city.Element("population")!,
+                   (double)city.Element("density")!,
+                   (string)city.Element("timezone")!,
+                   zips!
+               );
                 AddToDictionary(cityInfo);
             }
         }
@@ -95,6 +95,10 @@ namespace Project1_INFO5101
 
             string jsonData = File.ReadAllText(fileName);
         }
+
+   
+
+
 
         /*
          * 
