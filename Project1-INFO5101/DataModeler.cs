@@ -1,6 +1,7 @@
 ﻿using System.Xml.Linq;
 using System.Globalization;
 using CsvHelper;
+using Newtonsoft.Json;
 
 namespace Project1_INFO5101
 {
@@ -94,9 +95,27 @@ namespace Project1_INFO5101
             if (!File.Exists(fileName)) throw new FileNotFoundException("File not found.");
 
             string jsonData = File.ReadAllText(fileName);
+            var cities = JsonConvert.DeserializeObject<List<CityInfo>>(jsonData);
+
+            if (cities != null)
+            {
+                foreach (var city in cities)
+                {
+                    if (!CityDictionary.ContainsKey(city.Name))
+                    {
+                        CityDictionary[city.Name] = new List<CityInfo>();
+                    }
+                    CityDictionary[city.Name].Add(city);
+                }
+            }
+
+
         }
 
-   
+
+
+
+
 
 
 
