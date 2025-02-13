@@ -23,16 +23,20 @@ namespace Project1_INFO5101
             citiesDictionary = dataModeler.CityDictionary;
         }
 
-        public void ReportCityInformation(string cityName)
+        public bool ReportCityInformation(string cityName)
         {
             if (citiesDictionary.ContainsKey(cityName))
             {
                 List<CityInfo> list = citiesDictionary[cityName];
+
+                //Printing the number of matches
+                Console.WriteLine($"\nNumber of matches: {list.Count}");
+
                 int count = 1;
                 foreach (CityInfo cityInfo in list)
                 {
 
-                    Console.WriteLine($"{count}. {cityInfo.Name}, {cityInfo.StateAbbrev}");
+                    Console.WriteLine($"\n{count}. {cityInfo.Name}, {cityInfo.StateAbbrev}");
 
                     Console.WriteLine("{0,-20} {1,-15}", "State:", cityInfo.State);
                     Console.WriteLine("{0,-20} {1,-15}", "Population:", cityInfo.Population.ToString("N0"));
@@ -44,9 +48,17 @@ namespace Project1_INFO5101
 
                     count++;
                 }
+                return true;
+            }
+            //If city is not found
+            else
+            {
+                Console.WriteLine($"'{cityName}' not found.");
+                return false;
             }
         }
 
+        //bool flag needed to check both cities are found if not return false and dont print anything
         public void ComparePopulationDensity(string cityNameA, string cityNameB)
         {
 
@@ -100,6 +112,8 @@ namespace Project1_INFO5101
         }
         static double DegreesToRadians(double degrees) => degrees * Math.PI / 180;
 
+
+        //Distance between cities isnt being accurately calculated
         public void ReportDistanceBetweenCities(string cityNameA, string cityNameB)
         {
             double distanceALng = 0;
@@ -141,6 +155,7 @@ namespace Project1_INFO5101
             Console.WriteLine($"The distance between {cityNameA}, {stateAbbrevA} and  {cityNameB}, {stateAbbrevB} is {roundedDistance} km ");
         }
 
+        // Distance between cities isnt being accurately calculated
         public void ReportDistanceFromCapital(string cityName)
         {
             string stateAbbrevA = "";
