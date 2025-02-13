@@ -58,11 +58,11 @@ namespace Project1_INFO5101
 
             XDocument doc = XDocument.Load(fileName);
             var cities = doc.Descendants("city");
-
+            List<string> zips = new();
             foreach (var city in cities)
             {
 
-                List<string> zips = new();
+                
                 string z = (string)city.Element("zips")!;
 
 
@@ -106,26 +106,54 @@ namespace Project1_INFO5101
             {
                 foreach (var c in cities)
                 {
-                    city = c.Name;
+                    //city=c.Id.ToString();
+                    //city = c.Name;
+                    //city = c.StateAbbrev;
+                    //city = c.State;
+                    //city = c.Capital;
+                    //city = c.TimeZone;
+                    //city = c.Population.ToString();
+                    //city = c.Density.ToString();
+                    //city = c.Latitude.ToString();
+                    //city = c.Longitude.ToString();
+                    //city = c.TimeZone;
+
+
+
+
                     //others here...
                     zips = new List<string>();
                     string z = Convert.ToString(c.Zips)!;
                     zips = z.Split(' ').ToList();
 
-                    //   CityInfo cityInfo = new CityInfo(id, city, stateAbbrev, state, capital, lat, lng, population, density, timezone, zips);
-                  //  AddToDictionary(cityInfo);
+                  
+                   //string zips = "";
 
+                    CityInfo cityInfo = new CityInfo(
+                        c.Id,
+                        c.Name,
+                        c.StateAbbrev,
+                        c.State,
+                        c.Capital,
+                        c.Latitude,
+                        c.Longitude,
+                        c.Population,
+                        c.Density,
+                        c.TimeZone,
+                        zips
+                    );
+
+                    if (!CityDictionary.ContainsKey(cityInfo.Name))
+                    {
+                        CityDictionary[cityInfo.Name] = new List<CityInfo>();
+                    }
+                    CityDictionary[cityInfo.Name].Add(cityInfo);
                 }
             }
-
-
         }
 
 
-
-
-
-
+        
 
 
         /*
