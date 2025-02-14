@@ -1,5 +1,5 @@
 ﻿/*
- * Name: Joy Owoeye, Mariam Abushammala, Yomna, Farid
+ * Name: Joy Owoeye, Mariam Abushammala, Yomna Farid
  * Date: February 14, 2025
  * Purpose: Statistics class for manipulating Dictionary data 
  */
