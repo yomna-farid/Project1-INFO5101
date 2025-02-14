@@ -17,12 +17,24 @@ namespace Project1_INFO5101
             DataSourceSelection();
         }
 
+        //FIXMEEE Adjust the title --- to when MenuTitle is set everytime.
         private static void ProgramTitle()
         {
-            Console.Clear();
+            Clear();
             Console.WriteLine($"U.S. Cities Information System v1.0    {MenuTitle}   Data Format: {DataFormat}");
 
             Console.WriteLine("----------------------------------------------------------------------------------\n");
+        }
+
+        private static void ConsoleMessage()
+        {
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadKey();
+        }
+
+        private static void Clear()
+        {
+            Console.Clear();
         }
 
         private static int GetMenuSelection(int min, int max)
@@ -93,7 +105,7 @@ namespace Project1_INFO5101
                 {
                     case 1: CityOptions(); break;
                     case 2: StateOptions(); break;
-                    case 3: return; //NOT IMPLEMENTED YET
+                    case 3: DataFormat = "NONE";  DataSourceSelection(); break;
                     case 4: ExitProgram(); break;
                 }
             }
@@ -256,7 +268,7 @@ namespace Project1_INFO5101
             Console.Write("\nEnter state abbreviation: ");
             string? state = Console.ReadLine();
 
-            //REPLACE WITH ACTUAL METHOD TO FETCH ALL CITIES
+            _statistics.ReportAllCities(state);
             ConsoleMessage();
         }
 
@@ -268,7 +280,7 @@ namespace Project1_INFO5101
             Console.Write("\nEnter state abbreviation: ");
             string? state = Console.ReadLine();
 
-            //REPLACE WITH ACTUAL METHOD TO LARGEST CITY
+            _statistics.ReportLargestCity(state);
             ConsoleMessage();
         }
 
@@ -279,7 +291,7 @@ namespace Project1_INFO5101
 
             Console.Write("\nEnter state abbreviation: ");
             string? state = Console.ReadLine();
-            //REPLACE WITH ACTUAL METHOD TO SMALLEST CITY
+            _statistics.ReportSmallestCity(state);
             ConsoleMessage();
         }
         public static void ExitProgram()
@@ -295,7 +307,7 @@ namespace Project1_INFO5101
 
             Console.Write("\nEnter state abbreviation: ");
             string? state = Console.ReadLine();
-            //REPLACE WITH ACTUAL METHOD TO CAPITAL CITY
+            _statistics.ReportCapital(state);
             ConsoleMessage();
         }
 
@@ -306,7 +318,7 @@ namespace Project1_INFO5101
 
             Console.Write("\nEnter state abbreviation: ");
             string? state = Console.ReadLine();
-            //REPLACE WITH ACTUAL METHOD TO STATE POPULATION
+            _statistics.ReportStatePopulation(state);
             ConsoleMessage();
 
 
