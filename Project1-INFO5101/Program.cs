@@ -206,6 +206,7 @@ namespace Project1_INFO5101
                 }
                 break;
             }
+          
             while (true)
             {
                 Console.Write("\nEnter second city name: ");
@@ -271,12 +272,16 @@ namespace Project1_INFO5101
             Clear();
             ProgramTitle();
 
+            PopulationChangeEvent populationChangeEvent = new PopulationChangeEvent();
             Console.Write("\nEnter city name: ");
             string? cityName = Console.ReadLine();
+            
             Console.Write("Enter new population: ");
+
             if (int.TryParse(Console.ReadLine(), out int newPopulation))
             {
                 //REPLACE WITH ACTUAL METHOD TO ADJUST POPULATION
+
                 ConsoleMessage();
             }
             else

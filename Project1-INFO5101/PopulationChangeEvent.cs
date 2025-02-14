@@ -16,15 +16,27 @@ namespace Project1_INFO5101
             public event PopulationChangedHandler? PopulationChanged;
 
             // Method to update city population 
-            public void UpdatePopulation(CityInfo city, int newPopulation)
+            public void UpdatePopulation(CityInfo city, int newPopulation, string fileFormat)
             {
-                if (newPopulation > 0 && newPopulation != city.Population)
+
+            if (newPopulation > 0 && newPopulation != city.Population)
                 {
+
+                    Console.WriteLine("Changing the population figure for" + city.Name + "," + city.StateAbbrev + "...");
+
                     int oldPopulation = city.Population;
                     city.Population = newPopulation;
 
                     // Recalculate Density
                     city.Density = city.Density * ((double)newPopulation / oldPopulation);
+
+
+                    
+
+
+
+
+
 
                     // print a message
                     //I think this goes in a s
