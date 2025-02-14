@@ -1,5 +1,7 @@
 ﻿/*
- * Name: Joy Owoeye, 
+ * Name: Joy Owoeye, Mariam Abushammala, Yomna Farid
+ * Date: February 14, 2025
+ * Purpose: Statistics class for manipulating Dictionary data 
  */
 using Newtonsoft.Json.Linq;
 using System;
@@ -13,16 +15,20 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using System.Collections;
+using Microsoft.VisualBasic;
+using System.Xml.Linq;
 
 namespace Project1_INFO5101
 {
     public class Statistics
     {
+
+        //holds all the city  information returned from the DataModeler class.
         private Dictionary<string, List<CityInfo>> citiesDictionary;
 
 
         /// <summary>
-        /// 
+        /// Uses the constructor to initialize the dictionary property by calling the DataModeler.Parse method
         /// </summary>
         /// <param name="fileName"></param>
         /// <param name="filetype"></param>
@@ -35,7 +41,7 @@ namespace Project1_INFO5101
 
 
         /// <summary>
-        /// 
+        /// Reports all the city information in the dictionary for a selected city name.
         /// </summary>
         /// <param name="cityName"></param>
         /// <returns></returns>
@@ -75,15 +81,20 @@ namespace Project1_INFO5101
         }
 
 
+        public bool isNotVaildCityName(string cityName)
+        {
+            if (citiesDictionary.ContainsKey(cityName))
+            {
+                return false;
+            }
+            return true;
+        }
+
         /// <summary>
-        /// 
+        /// checks to see if there are muiliple cites in the list
         /// </summary>
         /// <param name="cityNameA"></param>
         /// <param name="cityNameB"></param>
-
-        //bool flag needed to check both cities are found if not return false and dont print anything
-
-
         public int checkForMuilipleCities(List<CityInfo> list)
         {
 
@@ -124,7 +135,13 @@ namespace Project1_INFO5101
             return 0; //if there is only one city
 
         }
-        public void ComparePopulationDensity(string cityNameA, string cityNameB)
+
+        /// <summary>
+        /// reports the population density for each city while indicating which city has the higher population density.
+        /// </summary>
+        /// <param name="cityNameA"></param>
+        /// <param name="cityNameB"></param>
+        public bool ComparePopulationDensity(string cityNameA, string cityNameB)
         {
 
             double densityA = 0, densityB = 0;
@@ -157,8 +174,19 @@ namespace Project1_INFO5101
 
                 }
 
-                Console.WriteLine($"\n{cityA}, {stateAbbrevA}  has a population density of {densityA.ToString("N0")} people per sq. km");
+
+
+
+
+                Console.WriteLine($"{cityA}, {stateAbbrevA}  has a population density of {densityA.ToString("N0")} people per sq. km");
+             
             }
+            else
+            {
+                Console.WriteLine($"'{cityNameA}' not found.");
+                return false;
+            }
+
 
             if (citiesDictionary.ContainsKey(cityNameB))
             {
@@ -187,23 +215,29 @@ namespace Project1_INFO5101
                 }
                 Console.WriteLine($"{cityB}, {stateAbbrevB}  has a population density of {densityB.ToString("N0")} people per sq. km");
             }
+            else
+            {
+                Console.WriteLine($"'{cityNameA}' not found.");
+                return false;
+            }
 
             string nameAndState = densityA > densityB ? cityNameA + ", " + stateAbbrevA : cityNameB + ", " + stateAbbrevB;
             Console.WriteLine($"\n{nameAndState} has the higher population density");
-
+            
+            return false;
         }
         /// <summary>
-        /// 
+        /// Uses Haversine Formula to calculate distance between two latitude/longitude points https://en.wikipedia.org/wiki/Haversine_formula
         /// </summary>
         /// <param name="lat1"></param>
         /// <param name="lon1"></param>
         /// <param name="lat2"></param>
         /// <param name="lon2"></param>
         /// <returns></returns>
-        // Uses  Haversine Formula to calculate distance between two latitude/longitude points https://en.wikipedia.org/wiki/Haversine_formula
+        
         private double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
         {
-            const double Radius = 6371; // Radius of Earth in km
+            const double Radius = 6371; 
             double distanceLat = (lat2 - lat1) * Math.PI / 180;
             double distanceLon = (lon2 - lon1) * Math.PI / 180;
             double a = Math.Sin(distanceLat / 2) * Math.Sin(distanceLat / 2) + Math.Cos(lat1 * Math.PI / 180) * Math.Cos((lat2) * Math.PI / 180) * Math.Sin(distanceLon / 2) * Math.Sin(distanceLon / 2);
@@ -213,11 +247,11 @@ namespace Project1_INFO5101
 
 
         /// <summary>
-        /// 
+        /// reports the distance between any two cities using the latitude and longitude of the input cities stored in the cities dictionary.
         /// </summary>
         /// <param name="cityNameA"></param>
         /// <param name="cityNameB"></param>
-        //Distance between cities isnt being accurately calculated
+
         public void ReportDistanceBetweenCities(string cityNameA, string cityNameB)
         {
             double distanceALng = 0;
@@ -301,11 +335,15 @@ namespace Project1_INFO5101
 
             Console.WriteLine($"The distance between {cityNameA}, {stateAbbrevA} and  {cityNameB}, {stateAbbrevB} is {roundedDistance} km ");
         }
+
+
+
+
         /// <summary>
-        /// 
+        /// Uses calculates CalculateDistance() the distance between a city selected by the user and the state capital for the same state.
         /// </summary>
         /// <param name="cityName"></param>
-        // Distance between cities isnt being accurately calculated
+
         public void ReportDistanceFromCapital(string cityName)
         {
             string stateAbbrevA = "";
@@ -384,9 +422,9 @@ namespace Project1_INFO5101
 
             Console.WriteLine($"The distance between {cityA}, {stateAbbrevA} and  {cityB}, {stateAbbrevB} is {roundedDistance} km ");
         }
-    
+
         /// <summary>
-        /// 
+        ///  Uses the name of the city and state to display the  city on a map
         /// </summary>
         /// <param name="city"></param>
         //Finds cir
@@ -404,8 +442,7 @@ namespace Project1_INFO5101
 
                 foreach (CityInfo cityInfo in list)
                 {
-                         state = cityInfo.State;
-                    
+                        state = cityInfo.State;
                         distanceALng = cityInfo.Longitude;
                         distanceALat = cityInfo.Latitude;
                         break;
@@ -438,7 +475,7 @@ namespace Project1_INFO5101
 
 
         /// <summary>
-        /// 
+        /// Generates a list of all cities of the selected state  from the cities dictionary
         /// </summary>
         /// <param name="stateAbv"></param>
 
@@ -483,7 +520,7 @@ namespace Project1_INFO5101
                 
         }
         /// <summary>
-        /// 
+        /// reports the largest city by population in the selected state
         /// </summary>
         /// <param name="stateAbv"></param>
         public bool ReportLargestCity(string stateAbv)
@@ -618,7 +655,7 @@ namespace Project1_INFO5101
 
 
         /// <summary>
-        /// 
+        /// Reports the capital of the selected state along  with its latitude and longitude.
         /// </summary>
         /// <param name="stateAbv"></param>
         public bool ReportCapital(string stateAbv)
@@ -660,7 +697,7 @@ namespace Project1_INFO5101
 
 
         /// <summary>
-        /// 
+        /// Reports the sum of the populations of all cities of the selected state that are stored in the cities dictionary
         /// </summary>
         /// <param name="stateAbv"></param>
         public bool ReportStatePopulation(string stateAbv)

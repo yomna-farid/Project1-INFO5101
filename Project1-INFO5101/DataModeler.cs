@@ -95,7 +95,6 @@ namespace Project1_INFO5101
         // Parse JSON file
         private void ParseJSON(string fileName)
         {
-
             string city = ""; //add all values here
             if (!File.Exists(fileName)) throw new FileNotFoundException("File not found.");
 
