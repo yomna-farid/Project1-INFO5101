@@ -27,17 +27,9 @@ namespace Project1_INFO5101
                     int oldPopulation = city.Population;
                     city.Population = newPopulation;
 
-                    // Recalculate Density
-                    city.Density = city.Density * ((double)newPopulation / oldPopulation);
-
-
+                // Recalculate Density
+                city.Density = city.Density * ((double)newPopulation / oldPopulation);
                     
-
-
-
-
-
-
                     // print a message
                     //I think this goes in a s
                     PopulationChanged?.Invoke($"Population of {city.Name}, {city.StateAbbrev} updated from {oldPopulation} to {newPopulation}. New density: {city.Density:F2}");
