@@ -286,7 +286,7 @@ namespace Project1_INFO5101
             if (int.TryParse(Console.ReadLine(), out int newPopulation))
             {
                 //REPLACE WITH ACTUAL METHOD TO ADJUST POPULATION
-
+                populationChangeEvent.UpdatePopulation(cityName, DataFormat);
                 ConsoleMessage();
             }
             else
