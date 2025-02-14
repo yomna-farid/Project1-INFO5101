@@ -27,6 +27,7 @@ namespace Project1_INFO5101
                     city.Density = city.Density * ((double)newPopulation / oldPopulation);
 
                     // print a message
+                    //I think this goes in a s
                     PopulationChanged?.Invoke($"Population of {city.Name}, {city.StateAbbrev} updated from {oldPopulation} to {newPopulation}. New density: {city.Density:F2}");
                 }
             }

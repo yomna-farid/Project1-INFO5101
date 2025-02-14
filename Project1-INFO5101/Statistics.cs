@@ -231,29 +231,73 @@ namespace Project1_INFO5101
             double distanceBLat = 0;
             string stateAbbrevA = "";
             string stateAbbrevB = "";
+
+
+
+
+
+
             if (citiesDictionary.ContainsKey(cityNameA))
             {
-                List<CityInfo> list = citiesDictionary[cityNameA];
+                List<CityInfo> listA = citiesDictionary[cityNameA];
 
-                foreach (CityInfo cityInfo in list)
+                int selection = checkForMuilipleCities(listA);
+
+                foreach (CityInfo cityInfo in listA)
                 {
-                    distanceALng = cityInfo.Longitude;
-                    distanceALat = cityInfo.Latitude;
-                    stateAbbrevA = cityInfo.StateAbbrev;
+                    if (selection == 1 || selection == 0)
+                    {
+
+                        distanceALng = listA.ElementAt(0).Longitude;
+                        distanceALat = listA.ElementAt(0).Latitude;
+                        stateAbbrevA = listA.ElementAt(0).StateAbbrev;
+
+                        break;
+                    }
+                    else if (selection == 2)
+                    {
+
+                        distanceALng = listA.ElementAt(1).Longitude;
+                        distanceALat = listA.ElementAt(1).Latitude;
+                        stateAbbrevA = listA.ElementAt(1).StateAbbrev;
+                        break;
+                    }
+
+
                 }
+
             }
 
 
             if (citiesDictionary.ContainsKey(cityNameB))
             {
-                List<CityInfo> list = citiesDictionary[cityNameB];
+                List<CityInfo> listB = citiesDictionary[cityNameA];
 
-                foreach (CityInfo cityInfo in list)
+                int selection = checkForMuilipleCities(listB);
+
+                foreach (CityInfo cityInfo in listB)
                 {
-                    distanceBLng = cityInfo.Longitude;
-                    distanceBLat = cityInfo.Latitude;
-                    stateAbbrevB = cityInfo.StateAbbrev;
+                    if (selection == 1 || selection == 0)
+                    {
+
+                        distanceBLng = listB.ElementAt(0).Longitude;
+                        distanceBLat = listB.ElementAt(0).Latitude;
+                        stateAbbrevB = listB.ElementAt(0).StateAbbrev;
+
+                        break;
+                    }
+                    else if (selection == 2)
+                    {
+
+                        distanceBLng = listB.ElementAt(1).Longitude;
+                        distanceBLat = listB.ElementAt(1).Latitude;
+                        stateAbbrevB = listB.ElementAt(1).StateAbbrev;
+                        break;
+                    }
+
+
                 }
+
             }
 
 
@@ -285,17 +329,46 @@ namespace Project1_INFO5101
             if (citiesDictionary.ContainsKey(cityName))
             {
                 List<CityInfo> list = citiesDictionary[cityName];
+                int selection = checkForMuilipleCities(list);
 
                 foreach (CityInfo cityInfo in list)
                 {
-                    stateAbbrevA = cityInfo.StateAbbrev;
-                    distanceALng = cityInfo.Longitude;
-                    distanceALat = cityInfo.Latitude;
-                    cityA = cityInfo.Name;
-                    break;
+                    if (selection == 1 || selection == 0)
+                    {
+
+                        distanceALng = list.ElementAt(0).Longitude;
+                        distanceALat = list.ElementAt(0).Latitude;
+                        stateAbbrevA = list.ElementAt(0).StateAbbrev;
+                        cityA = list.ElementAt(0).Name;
+
+                        break;
+                    }
+                    else if (selection == 2)
+                    {
+                        distanceALng = list.ElementAt(1).Longitude;
+                        distanceALat = list.ElementAt(1).Latitude;
+                        stateAbbrevA = list.ElementAt(1).StateAbbrev;
+                        cityA = list.ElementAt(1).Name;
+                        break;
+                    }
+
+
+
                 }
 
             }
+            //foreach (CityInfo cityInfo in list)
+            //{
+
+
+            //    stateAbbrevA = cityInfo.StateAbbrev;
+            //    distanceALng = cityInfo.Longitude;
+            //    distanceALat = cityInfo.Latitude;
+            //    cityA = cityInfo.Name;
+            //    break;
+            //}
+
+        }
 
             foreach (var cityList in citiesDictionary.Values)
             {
