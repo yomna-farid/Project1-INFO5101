@@ -155,14 +155,9 @@ namespace Project1_INFO5101
                         break;
                     }
 
-
                 }
 
-
-
-
-
-                Console.WriteLine($"{cityA}, {stateAbbrevA}  has a population density of {densityA.ToString("N0")} people per sq. km");
+                Console.WriteLine($"\n{cityA}, {stateAbbrevA}  has a population density of {densityA.ToString("N0")} people per sq. km");
             }
 
             if (citiesDictionary.ContainsKey(cityNameB))
@@ -447,7 +442,7 @@ namespace Project1_INFO5101
         /// </summary>
         /// <param name="stateAbv"></param>
 
-        public void ReportAllCities(string stateAbv)
+        public bool ReportAllCities(string stateAbv)
         {
             string stateName = "";
             uint count  = 0;
@@ -466,7 +461,7 @@ namespace Project1_INFO5101
             if (state == null)
             {
                 Console.WriteLine($"{stateAbv} not found");
-                return;
+                return false;
             }
             else
             {
@@ -483,7 +478,7 @@ namespace Project1_INFO5101
                     }
                 }
                 Console.WriteLine($"\n{count} cities found.");
-
+                return true;
             }
                 
         }
@@ -491,7 +486,7 @@ namespace Project1_INFO5101
         /// 
         /// </summary>
         /// <param name="stateAbv"></param>
-        public void ReportLargestCity(string stateAbv)
+        public bool ReportLargestCity(string stateAbv)
         {
             string stateName = ""; 
             CityInfo? state =null;
@@ -510,7 +505,7 @@ namespace Project1_INFO5101
             if (state == null)
             {
                 Console.WriteLine($"{stateAbv} not found");
-                return;
+                return false;
             }
             List<CityInfo?> allCities = new List<CityInfo?>();
             List<int> allPopulations = new();
@@ -544,12 +539,12 @@ namespace Project1_INFO5101
             if (state == null)
             {
                 Console.WriteLine($"{stateAbv} not found");
-                return;
+                return false;
             }
             else
             {
-                Console.WriteLine($"The largest city in {stateName} is {cityName} with a population of {largestPop.ToString("N0")} ");
-
+                Console.WriteLine($"\nThe largest city in {stateName} is {cityName} with a population of {largestPop.ToString("N0")} ");
+                return true;
             }
         }
 
@@ -557,7 +552,7 @@ namespace Project1_INFO5101
         /// Reports the smallest city by population in the  selected state.
         /// </summary>
         /// <param name="stateAbv"></param>
-        public void ReportSmallestCity(string stateAbv)
+        public bool ReportSmallestCity(string stateAbv)
         {
             string stateName = "";
             CityInfo? state = null;
@@ -575,7 +570,7 @@ namespace Project1_INFO5101
             if (state == null)
             {
                 Console.WriteLine($"{stateAbv} not found");
-                return;
+                return false;
             }
 
             List<CityInfo?> allCities = new List<CityInfo?>();
@@ -610,11 +605,12 @@ namespace Project1_INFO5101
             if (state == null)
             {
                 Console.WriteLine($"{stateAbv} not found");
-                return;
+                return false;
             }
             else
             {
-                Console.WriteLine($"The smallest city in {stateName} is {cityName} with a population of {smallestPop.ToString("N0")} ");
+                Console.WriteLine($"\nThe smallest city in {stateName} is {cityName} with a population of {smallestPop.ToString("N0")} ");
+                return true;
             }
           
         }
@@ -625,7 +621,7 @@ namespace Project1_INFO5101
         /// 
         /// </summary>
         /// <param name="stateAbv"></param>
-        public void ReportCapital(string stateAbv)
+        public bool ReportCapital(string stateAbv)
         {
             string stateName = "";
             string capCity = "";
@@ -650,11 +646,12 @@ namespace Project1_INFO5101
             }
             if(state == null) {
                 Console.WriteLine($"{stateAbv} not found");
-                return;
+                return false;
             }
             else
             {
-                Console.WriteLine($"The capital city of {stateName} is {capCity}.\r\nIt's coordinates are {lat} degrees lattitude, {lon} degrees longitude.");
+                Console.WriteLine($"\nThe capital city of {stateName} is {capCity}.\r\nIt's coordinates are {lat} degrees lattitude, {lon} degrees longitude.");
+                return true;
             }
           
 
@@ -666,7 +663,7 @@ namespace Project1_INFO5101
         /// 
         /// </summary>
         /// <param name="stateAbv"></param>
-        public void ReportStatePopulation(string stateAbv)
+        public bool ReportStatePopulation(string stateAbv)
         {
             string stateName = "";
             CityInfo? state = null;
@@ -684,7 +681,7 @@ namespace Project1_INFO5101
             if (state == null)
             {
                 Console.WriteLine($"{stateAbv} not found");
-                return;
+                return false;
             }
 
             List<CityInfo?> allCities = new List<CityInfo?>();
@@ -706,11 +703,12 @@ namespace Project1_INFO5101
             if (state == null)
             {
                 Console.WriteLine($"{stateAbv} not found");
-                return;
+                return false;
             }
             else
             {
-                Console.WriteLine($"The total population of the {count} cities in {stateName} is {allPopulationsTotal.ToString("N0")}. ");
+                Console.WriteLine($"\nThe total population of the {count} cities in {stateName} is {allPopulationsTotal.ToString("N0")}. ");
+                return true;
             }
 
         }

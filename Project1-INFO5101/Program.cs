@@ -38,6 +38,12 @@ namespace Project1_INFO5101
             Console.Clear();
         }
 
+        public static void ExitProgram()
+        {
+            Console.WriteLine("\nThank you for using the U.S. Cities Information System.");
+            Environment.Exit(0);
+        }
+
         private static int GetMenuSelection(int min, int max)
         {
             while (true)
@@ -197,7 +203,6 @@ namespace Project1_INFO5101
             
              _statistics.ComparePopulationDensity(city1, city2);
 
-
             ConsoleMessage();
         }
 
@@ -269,10 +274,14 @@ namespace Project1_INFO5101
             Clear();
             ProgramTitle();
 
-            Console.Write("\nEnter state abbreviation: ");
-            string? state = Console.ReadLine();
+            bool isValidState = false;
 
-            _statistics.ReportAllCities(state);
+            while (!isValidState)
+            {
+                Console.Write("\nEnter state abbreviation: ");
+                string? state = Console.ReadLine();
+                isValidState = _statistics.ReportAllCities(state);
+            }
             ConsoleMessage();
         }
 
@@ -281,10 +290,13 @@ namespace Project1_INFO5101
             Clear();
             ProgramTitle();
 
-            Console.Write("\nEnter state abbreviation: ");
-            string? state = Console.ReadLine();
-
-            _statistics.ReportLargestCity(state);
+            bool isValidState = false;
+            while (!isValidState)
+            {
+                Console.Write("\nEnter state abbreviation: ");
+                string? state = Console.ReadLine();
+                isValidState = _statistics.ReportLargestCity(state);
+            }
             ConsoleMessage();
         }
 
@@ -293,15 +305,15 @@ namespace Project1_INFO5101
             Clear();
             ProgramTitle();
 
-            Console.Write("\nEnter state abbreviation: ");
-            string? state = Console.ReadLine();
-            _statistics.ReportSmallestCity(state);
+            bool isValidState = false;
+
+            while (!isValidState)
+            {
+                Console.Write("\nEnter state abbreviation: ");
+                string? state = Console.ReadLine();
+                isValidState = _statistics.ReportSmallestCity(state);
+            }
             ConsoleMessage();
-        }
-        public static void ExitProgram()
-        {
-            Console.WriteLine("\nThank you for using the U.S. Cities Information System.");
-            Environment.Exit(0);
         }
 
         private static void CapitalCity()
@@ -309,9 +321,14 @@ namespace Project1_INFO5101
             Clear();
             ProgramTitle();
 
-            Console.Write("\nEnter state abbreviation: ");
-            string? state = Console.ReadLine();
-            _statistics.ReportCapital(state);
+            bool isValidState = false;
+
+            while (!isValidState)
+            {
+                Console.Write("\nEnter state abbreviation: ");
+                string? state = Console.ReadLine();
+                isValidState = _statistics.ReportCapital(state);
+            }
             ConsoleMessage();
         }
 
@@ -320,12 +337,15 @@ namespace Project1_INFO5101
             Clear();
             ProgramTitle();
 
-            Console.Write("\nEnter state abbreviation: ");
-            string? state = Console.ReadLine();
-            _statistics.ReportStatePopulation(state);
+            bool isValidState = false;
+
+            while (!isValidState)
+            {
+                Console.Write("\nEnter state abbreviation: ");
+                string? state = Console.ReadLine();
+                isValidState = _statistics.ReportStatePopulation(state);
+            }
             ConsoleMessage();
-
-
         }
     }
 }
