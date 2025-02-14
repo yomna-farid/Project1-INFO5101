@@ -81,6 +81,15 @@ namespace Project1_INFO5101
         }
 
 
+        public bool isNotVaildCityName(string cityName)
+        {
+            if (citiesDictionary.ContainsKey(cityName))
+            {
+                return false;
+            }
+            return true;
+        }
+
         /// <summary>
         /// checks to see if there are muiliple cites in the list
         /// </summary>
@@ -132,7 +141,7 @@ namespace Project1_INFO5101
         /// </summary>
         /// <param name="cityNameA"></param>
         /// <param name="cityNameB"></param>
-        public void ComparePopulationDensity(string cityNameA, string cityNameB)
+        public bool ComparePopulationDensity(string cityNameA, string cityNameB)
         {
 
             double densityA = 0, densityB = 0;
@@ -171,7 +180,14 @@ namespace Project1_INFO5101
 
 
                 Console.WriteLine($"{cityA}, {stateAbbrevA}  has a population density of {densityA.ToString("N0")} people per sq. km");
+             
             }
+            else
+            {
+                Console.WriteLine($"'{cityNameA}' not found.");
+                return false;
+            }
+
 
             if (citiesDictionary.ContainsKey(cityNameB))
             {
@@ -200,10 +216,16 @@ namespace Project1_INFO5101
                 }
                 Console.WriteLine($"{cityB}, {stateAbbrevB}  has a population density of {densityB.ToString("N0")} people per sq. km");
             }
+            else
+            {
+                Console.WriteLine($"'{cityNameA}' not found.");
+                return false;
+            }
 
             string nameAndState = densityA > densityB ? cityNameA + ", " + stateAbbrevA : cityNameB + ", " + stateAbbrevB;
             Console.WriteLine($"\n{nameAndState} has the higher population density");
-
+            
+            return false;
         }
         /// <summary>
         /// Uses Haversine Formula to calculate distance between two latitude/longitude points https://en.wikipedia.org/wiki/Haversine_formula
