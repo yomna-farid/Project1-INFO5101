@@ -99,7 +99,9 @@ namespace Project1_INFO5101
             if (!File.Exists(fileName)) throw new FileNotFoundException("File not found.");
 
             string jsonData = File.ReadAllText(fileName);
-            var cities = JsonConvert.DeserializeObject<List<CityInfo>>(jsonData);
+           var cities = JsonConvert.DeserializeObject<List<CityInfo>>(jsonData);
+           //var cities = JsonConvert.DeserializeObject<List<CityInfo>>(File.ReadAllText("usacities.json"));
+
 
             if (cities != null)
             {
