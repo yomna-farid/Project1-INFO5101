@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 
@@ -194,7 +195,8 @@ namespace Project1_INFO5101
             Console.Write("Enter second city name: ");
             string? city2 = Console.ReadLine();
             
-            _statistics.ComparePopulationDensity(city1, city2);
+             _statistics.ComparePopulationDensity(city1, city2);
+
 
             ConsoleMessage();
         }
@@ -206,6 +208,7 @@ namespace Project1_INFO5101
 
             Console.Write("\nEnter first city name: ");
             string? city1 = Console.ReadLine();
+
             Console.Write("Enter second city name: ");
             string? city2 = Console.ReadLine();
 
@@ -236,6 +239,7 @@ namespace Project1_INFO5101
 
             //REPLACE WITH ACTUAL METHOD TO OPEN MAP
             Console.WriteLine($"Opening map for {cityName}...");
+            _statistics.ShowCityOnMap(cityName);    
             ConsoleMessage();
         }
 

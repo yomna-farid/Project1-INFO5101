@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
+using System.Collections;
 
 namespace Project1_INFO5101
 {
@@ -19,6 +20,12 @@ namespace Project1_INFO5101
     {
         private Dictionary<string, List<CityInfo>> citiesDictionary;
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="filetype"></param>
         public Statistics(string fileName, int filetype)
         {
             DataModeler dataModeler = new DataModeler();
@@ -26,6 +33,12 @@ namespace Project1_INFO5101
             citiesDictionary = dataModeler.CityDictionary;
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cityName"></param>
+        /// <returns></returns>
         public bool ReportCityInformation(string cityName)
         {
             if (citiesDictionary.ContainsKey(cityName))
@@ -61,38 +74,122 @@ namespace Project1_INFO5101
             }
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cityNameA"></param>
+        /// <param name="cityNameB"></param>
+
         //bool flag needed to check both cities are found if not return false and dont print anything
+
+
+        public int checkForMuilipleCities(List<CityInfo> list)
+        {
+           
+            if (list.Count > 1)
+            {
+                int count = 0;
+                Console.WriteLine("\nMatching cities....\n");
+                foreach (CityInfo cityInfo in list)
+                {
+                    Console.WriteLine($"{++count}. {cityInfo.Name}, {cityInfo.State}");
+                   
+
+                }
+                Console.WriteLine();
+                while (true)
+                {
+
+                    Console.Write("Enter you selection:");
+
+                    int.TryParse(Console.ReadLine(), out int selection);
+
+                    if (selection == 1)
+                    {
+                        return 1;
+                    }
+                    else if (selection == 2)
+                    {
+                        return 2;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error! Invaid Number! Please try again");
+                        continue;
+                    }
+                }
+
+            }
+            return 0; //if there is only one city
+
+        }
         public void ComparePopulationDensity(string cityNameA, string cityNameB)
         {
 
             double densityA = 0, densityB = 0;
             string cityA = "", cityB = "", stateAbbrevA = "", stateAbbrevB = "";
 
+
+
             if (citiesDictionary.ContainsKey(cityNameA))
             {
                 List<CityInfo> listA = citiesDictionary[cityNameA];
+               
+                int selection = checkForMuilipleCities(listA);
+
                 foreach (CityInfo cityInfo in listA)
                 {
-                    cityA = cityInfo.Name;
-                    stateAbbrevA = cityInfo.StateAbbrev;
-                    densityA = cityInfo.Density;
-
+                    if (selection == 1 || selection == 0)
+                    {
+                        cityA = listA.ElementAt(0).Name;
+                        stateAbbrevA = listA.ElementAt(0).StateAbbrev;
+                        densityA = listA.ElementAt(0).Density;
+                        break;
+                    }
+                    else if (selection == 2)
+                    {
+                        cityA = listA.ElementAt(1).Name;
+                        stateAbbrevA = listA.ElementAt(1).StateAbbrev;
+                        densityA = listA.ElementAt(1).Density;
+                        break;
+                    }
+                    
 
                 }
+                 
+
+
+               
 
                 Console.WriteLine($"{cityA}, {stateAbbrevA}  has a population density of {densityA.ToString("N0")} people per sq. km");
             }
+
             if (citiesDictionary.ContainsKey(cityNameB))
             {
                 List<CityInfo> listB = citiesDictionary[cityNameB];
+
+                int selection = checkForMuilipleCities(listB);
+
                 foreach (CityInfo cityInfo in listB)
                 {
-                    cityB = cityInfo.Name;
-                    stateAbbrevB = cityInfo.StateAbbrev;
-                    densityB = cityInfo.Density;
+                    if (selection == 1 || selection == 0)
+                    {
+                        cityB = listB.ElementAt(0).Name;
+                        stateAbbrevB = listB.ElementAt(0).StateAbbrev;
+                        densityB = listB.ElementAt(0).Density;
+                        break;
+                    }
+                    else if (selection == 2)
+                    {
+                        cityB = listB.ElementAt(1).Name;
+                        stateAbbrevB = listB.ElementAt(1).StateAbbrev;
+                        densityB = listB.ElementAt(1).Density;
+                        break;
+                    }
+
 
                 }
-
                 Console.WriteLine($"{cityB}, {stateAbbrevB}  has a population density of {densityB.ToString("N0")} people per sq. km");
             }
 
@@ -100,20 +197,31 @@ namespace Project1_INFO5101
             Console.WriteLine($"\n{nameAndState} has the higher population density");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lat1"></param>
+        /// <param name="lon1"></param>
+        /// <param name="lat2"></param>
+        /// <param name="lon2"></param>
+        /// <returns></returns>
         // Uses  Haversine Formula to calculate distance between two latitude/longitude points https://en.wikipedia.org/wiki/Haversine_formula
-        private double CalulateDistance(double lat1, double lon1, double lat2, double lon2)
+        private double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
         {
             const double Radius = 6371; // Radius of Earth in km
             double distanceLat = (lat2 - lat1) * Math.PI / 180;
             double distanceLon = (lon2 - lon1) * Math.PI / 180;
-            double a = Math.Sin(distanceLat / 2) * Math.Sin(distanceLat / 2) + Math.Cos((lat1) * Math.PI / 180 * Math.PI / 180) * Math.Cos((lat2) * Math.PI / 180) * Math.Sin(distanceLon / 2) * Math.Sin(distanceLon / 2);
+            double a = Math.Sin(distanceLat / 2) * Math.Sin(distanceLat / 2) + Math.Cos(lat1 * Math.PI / 180) * Math.Cos((lat2) * Math.PI / 180) * Math.Sin(distanceLon / 2) * Math.Sin(distanceLon / 2);
             double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
             return Radius * c;
         }
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cityNameA"></param>
+        /// <param name="cityNameB"></param>
         //Distance between cities isnt being accurately calculated
         public void ReportDistanceBetweenCities(string cityNameA, string cityNameB)
         {
@@ -149,12 +257,15 @@ namespace Project1_INFO5101
             }
 
 
-            double calulatedDistance = CalulateDistance(distanceALat, distanceALng, distanceBLat, distanceBLng);
+            double calulatedDistance = CalculateDistance(distanceALat, distanceALng, distanceBLat, distanceBLng);
             double roundedDistance = Math.Round(calulatedDistance, 1);
 
             Console.WriteLine($"The distance between {cityNameA}, {stateAbbrevA} and  {cityNameB}, {stateAbbrevB} is {roundedDistance} km ");
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cityName"></param>
         // Distance between cities isnt being accurately calculated
         public void ReportDistanceFromCapital(string cityName)
         {
@@ -200,13 +311,16 @@ namespace Project1_INFO5101
                 }
             }
 
-            double calulatedDistance = CalulateDistance(distanceALat, distanceALng, distanceBLat, distanceBLng);
+            double calulatedDistance = CalculateDistance(distanceALat, distanceALng, distanceBLat, distanceBLng);
             double roundedDistance = Math.Round(calulatedDistance, 1);
 
             Console.WriteLine($"The distance between {cityA}, {stateAbbrevA} and  {cityB}, {stateAbbrevB} is {roundedDistance} km ");
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="city"></param>
         //Finds cir
         public void ShowCityOnMap(string city)
         {
@@ -255,7 +369,10 @@ namespace Project1_INFO5101
 
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stateAbv"></param>
 
         public void ReportAllCities(string stateAbv)
         {
@@ -297,7 +414,10 @@ namespace Project1_INFO5101
             }
                 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stateAbv"></param>
         public void ReportLargestCity(string stateAbv)
         {
             string stateName = ""; 
@@ -428,7 +548,10 @@ namespace Project1_INFO5101
 
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stateAbv"></param>
         public void ReportCapital(string stateAbv)
         {
             string stateName = "";
@@ -466,7 +589,10 @@ namespace Project1_INFO5101
         }
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stateAbv"></param>
         public void ReportStatePopulation(string stateAbv)
         {
             string stateName = "";
