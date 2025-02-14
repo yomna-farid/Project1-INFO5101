@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Project1_INFO5101
 {
@@ -88,6 +89,23 @@ namespace Project1_INFO5101
                             csv.WriteRecords(records);
                         }
 
+                    }
+
+                    if (fileName.Equals("usacities.xml"))
+                    {
+
+                        XDocument doc = XDocument.Load(fileName);
+                        var cities = doc.Descendants("city");
+                        if (cities != null)
+                        {
+                          foreach(var c in cities)  {
+                                c.Element("population")?.SetValue(updatedPop);
+                                c.Element("density")?.SetValue(updatedDen);
+                            }
+                        }
+
+                        // Save changes back to file
+                        doc.Save(fileName);
                     }
 
 

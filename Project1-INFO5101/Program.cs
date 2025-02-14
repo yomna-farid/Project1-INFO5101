@@ -282,18 +282,16 @@ namespace Project1_INFO5101
             Console.Write("\nEnter city name: ");
             string? cityName = Console.ReadLine();
             
-            Console.Write("Enter new population: ");
+           // Console.Write("Enter new population: ");
 
-            if (int.TryParse(Console.ReadLine(), out int newPopulation))
-            {
+           
                 //REPLACE WITH ACTUAL METHOD TO ADJUST POPULATION
                 populationChangeEvent.UpdatePopulation(cityName, FileName);
                 ConsoleMessage();
-            }
-            else
-            {
+            
+            
                 Console.WriteLine("Invalid population input.");
-            }
+            
         }
 
 

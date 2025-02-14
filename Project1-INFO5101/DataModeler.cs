@@ -63,7 +63,7 @@ namespace Project1_INFO5101
 
             XDocument doc = XDocument.Load(fileName);
             var cities = doc.Descendants("city");
-            List<string> zips = new();
+            //List<string> zips = new();
             foreach (var city in cities)
             {
                 CityInfo cityInfo = new CityInfo(
