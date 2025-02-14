@@ -86,7 +86,7 @@ namespace Project1_INFO5101
 
         public int checkForMuilipleCities(List<CityInfo> list)
         {
-           
+
             if (list.Count > 1)
             {
                 int count = 0;
@@ -94,7 +94,7 @@ namespace Project1_INFO5101
                 foreach (CityInfo cityInfo in list)
                 {
                     Console.WriteLine($"{++count}. {cityInfo.Name}, {cityInfo.State}");
-                   
+
 
                 }
                 Console.WriteLine();
@@ -135,7 +135,7 @@ namespace Project1_INFO5101
             if (citiesDictionary.ContainsKey(cityNameA))
             {
                 List<CityInfo> listA = citiesDictionary[cityNameA];
-               
+
                 int selection = checkForMuilipleCities(listA);
 
                 foreach (CityInfo cityInfo in listA)
@@ -154,13 +154,13 @@ namespace Project1_INFO5101
                         densityA = listA.ElementAt(1).Density;
                         break;
                     }
-                    
+
 
                 }
-                 
 
 
-               
+
+
 
                 Console.WriteLine($"{cityA}, {stateAbbrevA}  has a population density of {densityA.ToString("N0")} people per sq. km");
             }
@@ -368,7 +368,7 @@ namespace Project1_INFO5101
             //    break;
             //}
 
-        }
+
 
             foreach (var cityList in citiesDictionary.Values)
             {
@@ -389,7 +389,7 @@ namespace Project1_INFO5101
 
             Console.WriteLine($"The distance between {cityA}, {stateAbbrevA} and  {cityB}, {stateAbbrevB} is {roundedDistance} km ");
         }
-
+    
         /// <summary>
         /// 
         /// </summary>
