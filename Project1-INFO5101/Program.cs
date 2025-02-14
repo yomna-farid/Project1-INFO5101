@@ -190,12 +190,35 @@ namespace Project1_INFO5101
             Clear();
             ProgramTitle();
 
-            Console.Write("\nEnter first city name: ");
-            string? city1 = Console.ReadLine();
-            Console.Write("Enter second city name: ");
-            string? city2 = Console.ReadLine();
-            
-             _statistics.ComparePopulationDensity(city1, city2);
+            string? city2 = "";
+            string? city1 = "";
+
+            bool isNotValidCity = false;
+            while (true)
+            {
+                Console.Write("\nEnter first city name: ");
+                 city1 = Console.ReadLine();
+                isNotValidCity = _statistics.isNotVaildCityName(city1);
+                if (isNotValidCity)
+                {
+                    Console.WriteLine("Error! Not a city. Please try again");
+                    continue;
+                }
+                break;
+            }
+            while (true)
+            {
+                Console.Write("\nEnter second city name: ");
+                city2 = Console.ReadLine();
+                isNotValidCity = _statistics.isNotVaildCityName(city2);
+                if (isNotValidCity)
+                {
+                    Console.WriteLine("Error! Not a city. Please try again");
+                    continue;
+                }
+                break;
+            }
+            _statistics.ComparePopulationDensity(city1, city2);
 
 
             ConsoleMessage();
