@@ -292,7 +292,7 @@ namespace Project1_INFO5101
 
             if (citiesDictionary.ContainsKey(cityNameB))
             {
-                List<CityInfo> listB = citiesDictionary[cityNameA];
+                List<CityInfo> listB = citiesDictionary[cityNameB];
 
                 int selection = checkForMuilipleCities(listB);
 

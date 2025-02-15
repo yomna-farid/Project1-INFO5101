@@ -107,7 +107,7 @@ namespace Project1_INFO5101
                                FileName = ""; break;
 
                 }
-                _dataModeler.ParseFile(FileName, choice);
+                _dataModeler!.ParseFile(FileName!, choice);
                 _statistics = new Statistics(FileName, choice);
                 MainOptions(); // Proceed to main menu
             }
@@ -215,7 +215,7 @@ namespace Project1_INFO5101
             {
                 Console.Write("\nEnter city name: ");
                 string? cityName = Console.ReadLine();
-                isValidCity = _statistics.ReportCityInformation(cityName);
+                isValidCity = _statistics!.ReportCityInformation(cityName!);
             }
 
             ConsoleMessage();
@@ -239,7 +239,7 @@ namespace Project1_INFO5101
             {
                 Console.Write("\nEnter first city name: ");
                  city1 = Console.ReadLine();
-                isNotValidCity = _statistics.isNotVaildCityName(city1);
+                isNotValidCity = _statistics!.isNotVaildCityName(city1!);
                 if (isNotValidCity)
                 {
                     Console.WriteLine("Error! Not a city. Please try again");
@@ -252,7 +252,7 @@ namespace Project1_INFO5101
             {
                 Console.Write("\nEnter second city name: ");
                 city2 = Console.ReadLine();
-                isNotValidCity = _statistics.isNotVaildCityName(city2);
+                isNotValidCity = _statistics.isNotVaildCityName(city2!);
                 if (isNotValidCity)
                 {
                     Console.WriteLine("Error! Not a city. Please try again");
@@ -260,7 +260,7 @@ namespace Project1_INFO5101
                 }
                 break;
             }
-            _statistics.ComparePopulationDensity(city1, city2);
+            _statistics.ComparePopulationDensity(city1!, city2!);
 
             ConsoleMessage();
         }
@@ -280,7 +280,7 @@ namespace Project1_INFO5101
             Console.Write("Enter second city name: ");
             string? city2 = Console.ReadLine();
 
-            _statistics.ReportDistanceBetweenCities(city1, city2);
+            _statistics!.ReportDistanceBetweenCities(city1!, city2!);
 
             ConsoleMessage();
         }
@@ -296,7 +296,7 @@ namespace Project1_INFO5101
 
             Console.Write("\nEnter city name: ");
             string? cityName = Console.ReadLine();
-            _statistics.ReportDistanceFromCapital(cityName);
+            _statistics!.ReportDistanceFromCapital(cityName!);
 
             ConsoleMessage();
         }
@@ -311,7 +311,7 @@ namespace Project1_INFO5101
 
             //REPLACE WITH ACTUAL METHOD TO OPEN MAP
             Console.WriteLine($"Opening map for {cityName}...");
-            _statistics.ShowCityOnMap(cityName);    
+            _statistics!.ShowCityOnMap(cityName!);    
             ConsoleMessage();
         }
 
@@ -330,7 +330,7 @@ namespace Project1_INFO5101
             {
                 Console.Write("\nEnter city name: ");
                 string? cityName = Console.ReadLine();
-                isValidCity = populationChangeEvent.UpdatePopulation(cityName, FileName);
+                isValidCity = populationChangeEvent.UpdatePopulation(cityName!, FileName);
             }
 
             ConsoleMessage();
@@ -348,7 +348,7 @@ namespace Project1_INFO5101
             {
                 Console.Write("\nEnter state abbreviation: ");
                 string? state = Console.ReadLine();
-                isValidState = _statistics.ReportAllCities(state);
+                isValidState = _statistics!.ReportAllCities(state!);
             }
             ConsoleMessage();
         }
@@ -363,7 +363,7 @@ namespace Project1_INFO5101
             {
                 Console.Write("\nEnter state abbreviation: ");
                 string? state = Console.ReadLine();
-                isValidState = _statistics.ReportLargestCity(state);
+                isValidState = _statistics!.ReportLargestCity(state!);
             }
             ConsoleMessage();
         }
@@ -379,7 +379,7 @@ namespace Project1_INFO5101
             {
                 Console.Write("\nEnter state abbreviation: ");
                 string? state = Console.ReadLine();
-                isValidState = _statistics.ReportSmallestCity(state);
+                isValidState = _statistics!.ReportSmallestCity(state!);
             }
             ConsoleMessage();
         }
@@ -395,7 +395,7 @@ namespace Project1_INFO5101
             {
                 Console.Write("\nEnter state abbreviation: ");
                 string? state = Console.ReadLine();
-                isValidState = _statistics.ReportCapital(state);
+                isValidState = _statistics!.ReportCapital(state!);
             }
             ConsoleMessage();
         }
@@ -412,7 +412,7 @@ namespace Project1_INFO5101
             {
                 Console.Write("\nEnter state abbreviation: ");
                 string? state = Console.ReadLine();
-                isValidState = _statistics.ReportStatePopulation(state);
+                isValidState = _statistics!.ReportStatePopulation(state!);
             }
             ConsoleMessage();
         }
