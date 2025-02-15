@@ -76,6 +76,7 @@ namespace Project1_INFO5101
 
         /// <summary>
         /// Gets the user's data source selection and validates the input.
+        /// Updates the data format and file name based on the selection.
         /// </summary>
         private static void DataSourceSelection()
         {
@@ -112,6 +113,9 @@ namespace Project1_INFO5101
             }
         }
 
+        /// <summary>
+        /// Gets users selection for main options and validates the input.
+        /// </summary>
         private static void MainOptions()
         {
             while (true)
@@ -134,6 +138,10 @@ namespace Project1_INFO5101
             }
         }
 
+        /// <summary>
+        /// Gets users selection for city options and validates the input.
+        /// Updates the menu title based on the selection.
+        /// </summary>
         private static void CityOptions()
         {
             while (true)
@@ -162,6 +170,10 @@ namespace Project1_INFO5101
             }
         }
 
+        /// <summary>
+        /// Gets users selection for state options and validates the input.
+        /// Updates the menu title based on the selection.
+        /// </summary>
         private static void StateOptions()
         {
             while (true)
@@ -189,8 +201,10 @@ namespace Project1_INFO5101
         }
 
 
-        //ALL METHODS HERE NOT TO BE ADJUSTED FOR VALIDATION AND IN STATS TO RETURN BOOL FLAG
-        //All City Option methods
+        /// <summary>
+        /// Gets user input and calls the ReportCity() from Statistics class
+        /// and displays city information if user input is valid. 
+        /// </summary>
         private static void CityInformation()
         {
             Clear();
@@ -207,6 +221,11 @@ namespace Project1_INFO5101
             ConsoleMessage();
         }
 
+        /// <summary>
+        /// Gets user input for 2 cities and calls the ComparePopulationDensity() from Statistics class.
+        /// Displays population density for each city and which one has a higher density only if
+        /// user input is valid for both cities. 
+        /// </summary>
         private static void ComparePopulationDensity()
         {
             Clear();
@@ -246,6 +265,10 @@ namespace Project1_INFO5101
             ConsoleMessage();
         }
 
+        /// <summary>
+        /// Gets user input for 2 cities and calls the DistanceBetweenCities() from Statistics class.
+        /// Displays distance between cities if user input is valid for both cities. 
+        /// </summary>
         private static void DistanceBetweenCities()
         {
             Clear();
@@ -262,6 +285,10 @@ namespace Project1_INFO5101
             ConsoleMessage();
         }
 
+        /// <summary>
+        /// Gets user input for city and calls the DistanceFromCapital() from Statistics class.
+        /// Displays distance city  if user input is valid for both cities. 
+        /// </summary>
         private static void DistanceFromCapital()
         {
             Clear();
