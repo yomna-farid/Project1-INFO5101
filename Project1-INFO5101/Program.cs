@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Name:    Joy Owoeye, Mariam Abushammala, Yomna Farid
+ * Date:    February 14, 2025
+ * Purpose: Program class is the main class that will run the U.S. Cities Information System.
+ */
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;

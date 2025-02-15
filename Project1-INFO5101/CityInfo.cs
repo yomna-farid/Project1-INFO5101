@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Name:    Joy Owoeye, Mariam Abushammala, Yomna Farid
+ * Date:    February 14, 2025
+ * Purpose: CityInfo is a non-generic class that will hold information about the city.
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

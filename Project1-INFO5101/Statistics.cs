@@ -325,7 +325,7 @@ namespace Project1_INFO5101
             double calulatedDistance = CalculateDistance(distanceALat, distanceALng, distanceBLat, distanceBLng);
             double roundedDistance = Math.Round(calulatedDistance, 1);
 
-            Console.WriteLine($"The distance between {cityNameA}, {stateAbbrevA} and  {cityNameB}, {stateAbbrevB} is {roundedDistance} km ");
+            Console.WriteLine($"\nThe distance between {cityNameA}, {stateAbbrevA} and  {cityNameB}, {stateAbbrevB} is {roundedDistance} km ");
         }
 
 
@@ -412,7 +412,7 @@ namespace Project1_INFO5101
             double calulatedDistance = CalculateDistance(distanceALat, distanceALng, distanceBLat, distanceBLng);
             double roundedDistance = Math.Round(calulatedDistance, 1);
 
-            Console.WriteLine($"The distance between {cityA}, {stateAbbrevA} and  {cityB}, {stateAbbrevB} is {roundedDistance} km ");
+            Console.WriteLine($"\nThe distance between {cityA}, {stateAbbrevA} and  {cityB}, {stateAbbrevB} is {roundedDistance} km ");
         }
 
         /// <summary>
@@ -494,7 +494,7 @@ namespace Project1_INFO5101
             }
             else
             {
-                Console.WriteLine($"The following cities are in {stateName}");
+                Console.WriteLine($"\nThe following cities are in {stateName}\n");
 
                 List<CityInfo?> allCities = new List<CityInfo?>();
                 foreach (var cityList in citiesDictionary.Values)

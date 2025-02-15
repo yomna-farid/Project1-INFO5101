@@ -1,4 +1,12 @@
-﻿using CsvHelper;
+﻿/*
+ * Name:    Joy Owoeye, Mariam Abushammala, Yomna Farid
+ * Date:    February 14, 2025
+ * Purpose: PopulationChangeEvent class will send a notification containing a message to be displayed
+ *          to the end-user confirming an update to a city’s population in a data file that he/she 
+ *          inputted via the UI. The class will also update the population figure and new density.
+ */
+
+using CsvHelper;
 using CsvHelper.Configuration;
 using System;
 using System.Collections.Generic;
@@ -22,6 +30,9 @@ namespace Project1_INFO5101
         /// population figure and new density for the specified city in the file type.
         /// Subscribes to the PopulationChanged event to display confirmation message after update is successful.
         /// </summary> 
+        /// <param name="city">Name of city whose population will be updated</param>
+        /// <param name="fileName">The name of the file where the updated data will be stored</param>
+        /// <return>Returns true if the population was updated otherwise false</return>
         public bool UpdatePopulation(string city, string fileName)
         {
             DataModeler dataModeler = new ();
@@ -69,6 +80,8 @@ namespace Project1_INFO5101
         /// Gets the file type based on the file name by calling GetFileType(). 
         /// Depending on the file type, it updates the city population and new density in the file.
         /// </summary>
+        /// <param name="fileName">The name of the file</param>
+        /// <param name="cityInfo">An in representing the type of file to get</param>
         private void UpdateFile(string fileName, CityInfo cityInfo)
         {
             int fileType = GetFileType(fileName);
@@ -91,8 +104,8 @@ namespace Project1_INFO5101
         /// <summary>
         /// Gets the file to update based on the file name.
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <return></return>///FIXXX MEEEE
+        /// <param name="cityInfo">An in representing the type of file to get</param>
+        /// <return>An in representing the file name to return.</return>
         private int GetFileType(string fileName)
         {
             if (fileName.Equals("usacities.csv")) return 1;
@@ -101,6 +114,11 @@ namespace Project1_INFO5101
             return 0;
         }
 
+        /// <summary>
+        /// Updates a cities population and density in a CSV file.
+        /// </summary>
+        /// <param name="fileName">The csv file with the city data/param>
+        /// <param name="updatedCity">The city object with updated values.</param>
         private void UpdateCSV(string fileName, CityInfo updatedCity)
         {
             //Processing files if header is formated different like case sensitive
@@ -133,6 +151,11 @@ namespace Project1_INFO5101
             }
         }
 
+        /// <summary>
+        /// Updates a cities population and density in a json file.
+        /// </summary>
+        /// <param name="fileName">The json file with the city data/param>
+        /// <param name="updatedCity">The city object with updated values.</param>
         private void UpdateJSON(string fileName, CityInfo updatedCity)
         {
             var cities = Newtonsoft.Json.JsonConvert.DeserializeObject<List<CityInfo>>(File.ReadAllText(fileName));
@@ -148,6 +171,11 @@ namespace Project1_INFO5101
             }
         }
 
+        /// <summary>
+        /// Updates a cities population and density in a xml file.
+        /// </summary>
+        /// <param name="fileName">The xml file with the city data/param>
+        /// <param name="updatedCity">The city object with updated values.</param>
         private void UpdateXML(string fileName, CityInfo updatedCity)
         {
             XDocument doc = XDocument.Load(fileName);

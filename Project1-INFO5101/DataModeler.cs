@@ -1,4 +1,10 @@
-﻿using System.Xml.Linq;
+﻿/*
+ * Name:    Joy Owoeye, Mariam Abushammala, Yomna Farid
+ * Date:    February 14, 2025
+ * Purpose: DataModeler is a non-generic class that will parse the data files. 
+ */
+
+using System.Xml.Linq;
 using System.Globalization;
 using CsvHelper;
 using Newtonsoft.Json;
