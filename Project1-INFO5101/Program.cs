@@ -25,9 +25,9 @@ namespace Project1_INFO5101
         private static void ProgramTitle()
         {
             Clear();
-            Console.WriteLine($"U.S. Cities Information System v1.0    {MenuTitle}   Data Format: {DataFormat}");
-
-            Console.WriteLine("----------------------------------------------------------------------------------\n");
+            string title = $"U.S. Cities Information System v1.0           {MenuTitle}          Data Format: {DataFormat}";
+            string dash = new string('-', title.Length);
+            Console.WriteLine(title + "\n" + dash + "\n");
         }
 
         /// <summary>
@@ -287,7 +287,7 @@ namespace Project1_INFO5101
 
         /// <summary>
         /// Gets user input for city and calls the DistanceFromCapital() from Statistics class.
-        /// Displays distance city  if user input is valid for both cities. 
+        /// Displays distance from capital if user input is valid. 
         /// </summary>
         private static void DistanceFromCapital()
         {
@@ -301,6 +301,10 @@ namespace Project1_INFO5101
             ConsoleMessage();
         }
 
+        /// <summary>
+        /// Gets user input for city and calls the ShowCityOnMap() from Statistics class.
+        /// Populates link for city on map if user input is valid. 
+        /// </summary>
         private static void ShowCityOnMap()
         {
             Clear();
@@ -315,6 +319,11 @@ namespace Project1_INFO5101
             ConsoleMessage();
         }
 
+        /// <summary>
+        /// Gets user input for city and calls the AdjustCityPopulation() from Statistics class.
+        /// If city selected is valid, current city population is printed and user is prompted to enter new population.
+        /// If new population is valid, population is updated and density is recalculated.
+        /// </summary>
         private static void AdjustCityPopulation()
         {
             Clear();
@@ -336,7 +345,10 @@ namespace Project1_INFO5101
             ConsoleMessage();
         }
 
-        //All State Option methods no 
+        /// <summary>
+        /// Gets user input state abbreviation and calls the ListAllCities() from Statistics class.
+        /// Displays all cities in the state if user input is valid.
+        /// </summary>
         private static void ListAllCities()
         {
             Clear();
@@ -353,6 +365,10 @@ namespace Project1_INFO5101
             ConsoleMessage();
         }
 
+        /// <summary>
+        /// Gets user input state abbreviation and calls the LargestCity() from Statistics class.
+        /// Displays largest city in the state if user input is valid.
+        /// </summary>
         private static void LargestCity()
         {
             Clear();
@@ -368,6 +384,10 @@ namespace Project1_INFO5101
             ConsoleMessage();
         }
 
+        /// <summary>
+        /// Gets user input state abbreviation and calls the SmallestCity() from Statistics class.
+        /// Displays smallest city in the state if user input is valid.
+        /// </summary>
         private static void SmallestCity()
         {
             Clear();
@@ -384,6 +404,10 @@ namespace Project1_INFO5101
             ConsoleMessage();
         }
 
+        /// <summary>
+        /// Gets user input state abbreviation and calls the CapitalCity() from Statistics class.
+        /// Displays capital city in the state if user input is valid.
+        /// </summary>
         private static void CapitalCity()
         {
             Clear();
@@ -400,7 +424,10 @@ namespace Project1_INFO5101
             ConsoleMessage();
         }
 
-
+        /// <summary>
+        /// Gets user input state abbreviation and calls the StatePopulation() from Statistics class.
+        /// Displays state population if user input is valid.
+        /// </summary>
         private static void StatePopulation()
         {
             Clear();
