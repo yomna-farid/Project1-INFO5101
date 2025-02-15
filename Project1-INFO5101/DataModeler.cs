@@ -13,7 +13,6 @@ namespace Project1_INFO5101
         // Dictionary to store city data with city name as key
         public Dictionary<string, List<CityInfo>> CityDictionary { get; private set; } = new Dictionary<string, List<CityInfo>>();
 
-
         /// <summary>
         /// Delegate for different file parsing methods (CSV, JSON, XML).
         /// </summary>
@@ -34,7 +33,6 @@ namespace Project1_INFO5101
             {
                 case 1:
                     parser = ParseCSV;
-
                     break;
 
                 case 2:

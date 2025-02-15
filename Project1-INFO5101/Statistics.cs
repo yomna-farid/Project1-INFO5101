@@ -171,15 +171,8 @@ namespace Project1_INFO5101
                         densityA = listA.ElementAt(1).Density;
                         break;
                     }
-
                 }
-
-
-
-
-
-                Console.WriteLine($"{cityA}, {stateAbbrevA}  has a population density of {densityA.ToString("N0")} people per sq. km");
-             
+                Console.WriteLine($"\n{cityA}, {stateAbbrevA}  has a population density of {densityA.ToString("N0")} people per sq. km");
             }
             else
             {
@@ -223,7 +216,6 @@ namespace Project1_INFO5101
 
             string nameAndState = densityA > densityB ? cityNameA + ", " + stateAbbrevA : cityNameB + ", " + stateAbbrevB;
             Console.WriteLine($"\n{nameAndState} has the higher population density");
-            
             return false;
         }
         /// <summary>
@@ -734,8 +726,6 @@ namespace Project1_INFO5101
                 }
 
             }
-
-          
 
             if (state == null)
             {
