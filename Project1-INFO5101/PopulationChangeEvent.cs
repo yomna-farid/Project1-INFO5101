@@ -20,7 +20,7 @@ namespace Project1_INFO5101
         // Method to update city population 
         public bool UpdatePopulation(string city, string fileName)
         {
-            DataModeler dataModeler = new DataModeler();
+            DataModeler dataModeler = new ();
             dataModeler.ParseFile(fileName, GetFileType(fileName));
             //Validation for city input
             if (!dataModeler.CityDictionary.ContainsKey(city))
@@ -56,6 +56,7 @@ namespace Project1_INFO5101
                 PopulationChanged?.Invoke($"\nPopulation of {cityInfo.Name}, {cityInfo.StateAbbrev} in {fileName} successfully changed from {oldPopulation} to {newPopulation}.");
 
                 UpdateFile(fileName, cityInfo);
+                break;
             }
             return true;
         }

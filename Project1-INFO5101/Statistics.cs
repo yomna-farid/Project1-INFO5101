@@ -502,7 +502,7 @@ namespace Project1_INFO5101
                     allCities = cityList.FindAll(c => c.StateAbbrev == stateAbv)!;
                     foreach (var city in allCities)
                     {
-                        Console.WriteLine($"{city.Name}");
+                        Console.WriteLine($"{city!.Name}");
                         count++;
                     }
                 }

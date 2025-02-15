@@ -10,8 +10,8 @@ namespace Project1_INFO5101
         public static string DataFormat { get; private set; } = "NONE";
         public static string FileName { get; private set; } = "";
         public static string MenuTitle { get; private set; } = "";
-        private static DataModeler _dataModeler;
-        private static Statistics _statistics;
+        private static DataModeler? _dataModeler;
+        private static Statistics? _statistics;
 
         static void Main(string[] args)
         {
