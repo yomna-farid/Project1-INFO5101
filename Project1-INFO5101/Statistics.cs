@@ -172,7 +172,7 @@ namespace Project1_INFO5101
                         break;
                     }
                 }
-                Console.WriteLine($"{cityA}, {stateAbbrevA}  has a population density of {densityA.ToString("N0")} people per sq. km");
+                Console.WriteLine($"\n{cityA}, {stateAbbrevA}  has a population density of {densityA.ToString("N0")} people per sq. km");
             }
             else
             {

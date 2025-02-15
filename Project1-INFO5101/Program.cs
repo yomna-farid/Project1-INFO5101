@@ -19,7 +19,9 @@ namespace Project1_INFO5101
             DataSourceSelection();
         }
 
-        //FIXMEEE Adjust the title --- to when MenuTitle is set everytime.
+        /// <summary>
+        /// Program title including the menu title and data source format.
+        /// </summary>
         private static void ProgramTitle()
         {
             Clear();
@@ -28,23 +30,35 @@ namespace Project1_INFO5101
             Console.WriteLine("----------------------------------------------------------------------------------\n");
         }
 
+        /// <summary>
+        /// Message at the end of each menu option to continue.
+        /// </summary>
         private static void ConsoleMessage()
         {
             Console.WriteLine("\nPress any key to continue...");
             Console.ReadKey();
         }
 
+        /// <summary>
+        /// Clears the console screen after each menu selection.
+        /// </summary>
         private static void Clear()
         {
             Console.Clear();
         }
 
+        /// <summary>
+        /// Exits the program.
+        /// </summary>
         public static void ExitProgram()
         {
             Console.WriteLine("\nThank you for using the U.S. Cities Information System.");
             Environment.Exit(0);
         }
 
+        /// <summary>
+        /// Gets the user's menu selection and validates the input.
+        /// </summary>
         private static int GetMenuSelection(int min, int max)
         {
             while (true)
@@ -60,6 +74,9 @@ namespace Project1_INFO5101
             }
         }
 
+        /// <summary>
+        /// Gets the user's data source selection and validates the input.
+        /// </summary>
         private static void DataSourceSelection()
         {
             while (true)
@@ -72,8 +89,6 @@ namespace Project1_INFO5101
 
                 //selection has to be between 1 and 3 for data source selection
                 int choice = GetMenuSelection(1, 3);
-
-                string? fileName;
 
                 //Updating Dataformat for Porgram title
                 switch (choice) 
@@ -279,21 +294,20 @@ namespace Project1_INFO5101
             ProgramTitle();
 
             PopulationChangeEvent populationChangeEvent = new PopulationChangeEvent();
-            Console.Write("\nEnter city name: ");
-            string? cityName = Console.ReadLine();
-            
-           // Console.Write("Enter new population: ");
 
-           
-                //REPLACE WITH ACTUAL METHOD TO ADJUST POPULATION
-                populationChangeEvent.UpdatePopulation(cityName, FileName);
-                ConsoleMessage();
-            
-            
-                Console.WriteLine("Invalid population input.");
-            
+            // Subscribe to the PopulationChanged event
+            populationChangeEvent.PopulationChanged += (message) => Console.WriteLine(message);
+
+            bool isValidCity = false;
+            while (!isValidCity) 
+            {
+                Console.Write("\nEnter city name: ");
+                string? cityName = Console.ReadLine();
+                isValidCity = populationChangeEvent.UpdatePopulation(cityName, FileName);
+            }
+
+            ConsoleMessage();
         }
-
 
         //All State Option methods no 
         private static void ListAllCities()
@@ -358,6 +372,7 @@ namespace Project1_INFO5101
             }
             ConsoleMessage();
         }
+
 
         private static void StatePopulation()
         {
