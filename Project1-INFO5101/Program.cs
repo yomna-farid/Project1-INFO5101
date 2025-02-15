@@ -8,6 +8,7 @@ namespace Project1_INFO5101
     public class Program
     {
         public static string DataFormat { get; private set; } = "NONE";
+        public static string FileName { get; private set; } = "";
         public static string MenuTitle { get; private set; } = "";
         private static DataModeler _dataModeler;
         private static Statistics _statistics;
@@ -78,20 +79,20 @@ namespace Project1_INFO5101
                 switch (choice) 
                 {
                     case 1: DataFormat = "CSV";
-                            fileName = "usacities.csv"; break;
+                            FileName = "usacities.csv"; break;
 
                     case 2: DataFormat = "JSON";
-                            fileName = "usacities.json"; break;
+                            FileName = "usacities.json"; break;
 
                     case 3: DataFormat = "XML";
-                            fileName = "usacities.xml"; break;
+                             FileName = "usacities.xml"; break;
 
                     default: DataFormat = "NONE";
-                            fileName = ""; break;
+                               FileName = ""; break;
 
                 }
-                _dataModeler.ParseFile(fileName, choice);
-                _statistics = new Statistics(fileName, choice);
+                _dataModeler.ParseFile(FileName, choice);
+                _statistics = new Statistics(FileName, choice);
                 MainOptions(); // Proceed to main menu
             }
         }
@@ -212,6 +213,7 @@ namespace Project1_INFO5101
                 }
                 break;
             }
+          
             while (true)
             {
                 Console.Write("\nEnter second city name: ");
@@ -276,18 +278,20 @@ namespace Project1_INFO5101
             Clear();
             ProgramTitle();
 
+            PopulationChangeEvent populationChangeEvent = new PopulationChangeEvent();
             Console.Write("\nEnter city name: ");
             string? cityName = Console.ReadLine();
-            Console.Write("Enter new population: ");
-            if (int.TryParse(Console.ReadLine(), out int newPopulation))
-            {
+            
+           // Console.Write("Enter new population: ");
+
+           
                 //REPLACE WITH ACTUAL METHOD TO ADJUST POPULATION
+                populationChangeEvent.UpdatePopulation(cityName, FileName);
                 ConsoleMessage();
-            }
-            else
-            {
+            
+            
                 Console.WriteLine("Invalid population input.");
-            }
+            
         }
 
 

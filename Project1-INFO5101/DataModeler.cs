@@ -14,12 +14,17 @@ namespace Project1_INFO5101
         public Dictionary<string, List<CityInfo>> CityDictionary { get; private set; } = new Dictionary<string, List<CityInfo>>();
 
         /// <summary>
-        /// 
+        /// Delegate for different file parsing methods (CSV, JSON, XML).
         /// </summary>
         /// <param name="fileName"></param>
         // Delegate for parsing methods
         public delegate void ParseDelegate(string fileName);
 
+        /// <summary>
+        /// Determines the file type and calls the appropriate parsing method.
+        /// </summary>
+        /// <param name="fileName">The name of the file to parse.</param>
+        /// <param name="fileType">The file format (1 = CSV, 2 = JSON, 3 = XML).</param>
         public void ParseFile(string fileName, int fileType)
         {
             ParseDelegate parser;
@@ -45,7 +50,7 @@ namespace Project1_INFO5101
             parser(fileName);
         }
         /// <summary>
-        /// 
+        /// Parses an XML file and extracts city information.
         /// </summary>
         /// <param name="fileName"></param>
         /// <exception cref="FileNotFoundException"></exception>
@@ -56,16 +61,9 @@ namespace Project1_INFO5101
 
             XDocument doc = XDocument.Load(fileName);
             var cities = doc.Descendants("city");
-            List<string> zips = new();
+            //List<string> zips = new();
             foreach (var city in cities)
             {
-
-                
-                //string z = (string)city.Element("zips")!;
-
-
-             //   zips = z.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
-
                 CityInfo cityInfo = new CityInfo(
                    (int)city.Element("id")!,
                    (string)city.Element("name")!,
@@ -86,7 +84,7 @@ namespace Project1_INFO5101
 
 
         /// <summary>
-        /// 
+        /// Parses a JSON file and extracts city information.
         /// </summary>
         /// <param name="fileName"></param>
         /// <exception cref="FileNotFoundException"></exception>
@@ -97,31 +95,12 @@ namespace Project1_INFO5101
             if (!File.Exists(fileName)) throw new FileNotFoundException("File not found.");
 
             string jsonData = File.ReadAllText(fileName);
-            var cities = JsonConvert.DeserializeObject<List<CityInfo>>(jsonData);
+           var cities = JsonConvert.DeserializeObject<List<CityInfo>>(jsonData);
 
             if (cities != null)
             {
                 foreach (var c in cities)
                 {
-                    //city=c.Id.ToString();
-                    //city = c.Name;
-                    //city = c.StateAbbrev;
-                    //city = c.State;
-                    //city = c.Capital;
-                    //city = c.TimeZone;
-                    //city = c.Population.ToString();
-                    //city = c.Density.ToString();
-                    //city = c.Latitude.ToString();
-                    //city = c.Longitude.ToString();
-                    //city = c.TimeZone;
-
-
-
-
-                    //others here...
-                  
-                  
-                   //string zips = "";
 
                     CityInfo cityInfo = new CityInfo(
                         c.Id,
@@ -146,18 +125,8 @@ namespace Project1_INFO5101
             }
         }
 
-
-        
-
-
-        /*
-         * 
-         * 
-                1840019941	Portland	OR	Oregon		45.5371	-122.65	2095808	1868.8	America/Los_Angeles	
-
-         */
         /// <summary>
-        /// 
+        /// Parses a CSV file and extracts city information.
         /// </summary>
         /// <param name="fileName"></param>
         /// <exception cref="FileNotFoundException"></exception>
@@ -193,28 +162,18 @@ namespace Project1_INFO5101
                     double.TryParse(Convert.ToString(record.density), out density);
 
                     string timezone = Convert.ToString(record.timezone);
-                    //List<string> zips = new();
-                    //string z =   Convert.ToString(record.zips);
-                    //zips = z.Split(' ').ToList();
-
                     string zips= Convert.ToString(record.zips);
                     CityInfo cityInfo = new CityInfo(id, city, stateAbbrev, state, capital, lat, lng, population, density, timezone, zips);
-
-
-
                     AddToDictionary(cityInfo);
-
-                        
-
-                    
-                  
-
                 }
             }
         }
 
 
-        // Add city data to dictionary handling duplicates
+        /// <summary>
+        /// Adds a city to the dictionary, handling duplicates by appending to the existing list.
+        /// </summary>
+        /// <param name="city">The city object to be added.</param>
 
         private void AddToDictionary(CityInfo city)
         {
