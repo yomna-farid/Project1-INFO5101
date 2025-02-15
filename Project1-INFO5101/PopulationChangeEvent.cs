@@ -17,7 +17,11 @@ namespace Project1_INFO5101
         // Event based on the delegate
         public event PopulationChangedHandler? PopulationChanged;
 
-        // Method to update city population 
+        /// <summary>
+        /// Validates the city and population inputs. If valid, updates the 
+        /// population figure and new density for the specified city in the file type.
+        /// Subscribes to the PopulationChanged event to display confirmation message after update is successful.
+        /// </summary> 
         public bool UpdatePopulation(string city, string fileName)
         {
             DataModeler dataModeler = new ();
@@ -61,7 +65,10 @@ namespace Project1_INFO5101
             return true;
         }
 
-        //Method to update the correct filetype
+        /// <summary>
+        /// Gets the file type based on the file name by calling GetFileType(). 
+        /// Depending on the file type, it updates the city population and new density in the file.
+        /// </summary>
         private void UpdateFile(string fileName, CityInfo cityInfo)
         {
             int fileType = GetFileType(fileName);
@@ -81,7 +88,11 @@ namespace Project1_INFO5101
             }
         }
 
-        //Method to get the correct file
+        /// <summary>
+        /// Gets the file to update based on the file name.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <return></return>///FIXXX MEEEE
         private int GetFileType(string fileName)
         {
             if (fileName.Equals("usacities.csv")) return 1;
