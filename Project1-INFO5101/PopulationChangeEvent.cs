@@ -91,6 +91,7 @@ namespace Project1_INFO5101
 
                     }
 
+                    
                     if (fileName.Equals("usacities.xml"))
                     {
 
@@ -108,6 +109,23 @@ namespace Project1_INFO5101
                         doc.Save(fileName);
                     }
 
+                    if (fileName.Equals("usacities.json"))
+                    {
+
+                        //XDocument doc = XDocument.Load(fileName);
+                        //var cities = doc.Descendants("city");
+                        //if (cities != null)
+                        //{
+                        //    foreach (var c in cities)
+                        //    {
+                        //        c.Element("population")?.SetValue(updatedPop);
+                        //        c.Element("density")?.SetValue(updatedDen);
+                        //    }
+                        //}
+
+                        // Save changes back to file
+                       // doc.Save(fileName);
+                    }
 
 
                     //Console.WriteLine("Revised Population:");
